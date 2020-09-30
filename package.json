@@ -1,0 +1,23 @@
+{
+  "name": "cw.backend",
+  "version": "1.0.0",
+  "description": "Coursework repo for 340CM back-end.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "kill": "killall -9 node",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.coventry.ac.uk/304CEM-2021SEPJAN/cw.backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.13.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^9.4.0",
+    "mongoose": "^5.10.7"
+  }
+}
