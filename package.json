@@ -20,5 +20,8 @@
     "koa-router": "^9.4.0",
     "mongoose": "^5.10.7",
     "nodemon": "^2.0.4"
+  },
+  "devDependencies": {
+    "prettier": "2.1.2"
   }
 }
