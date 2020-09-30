@@ -11,11 +11,9 @@ mongoose.connect(info.config.connectionStr, info.config.mongoOptions, function (
   console.log("Successfully connected to MongoDB.");
 });
 
-mongoose.set('useCreateIndex', true);
-mongoose.set('useFindAndModify', false);
-
+mongoose.set("useCreateIndex", true);
+mongoose.set("useFindAndModify", false);
 
 let port = process.env.PORT || 3000;
 
 app.listen(port, () => console.log(`Listening on port ${port}.`));
-

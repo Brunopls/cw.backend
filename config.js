@@ -1,8 +1,7 @@
 exports.config = {
-  connectionStr: 'mongodb://localhost/blog_db',
+  connectionStr: "mongodb://localhost/blog_db",
   mongoOptions: {
     useNewUrlParser: true,
-    useUnifiedTopology: true
-  }
+    useUnifiedTopology: true,
+  },
 };
-
