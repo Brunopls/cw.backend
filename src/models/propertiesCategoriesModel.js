@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const PropertiesCategoriesSchema = new Schema({
   title: {
     type: String,
-    required: "title required.",
+    required: "Title is required.",
   }
 });
 
