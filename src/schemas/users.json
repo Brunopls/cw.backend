@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "user": {
+      "$id": "#user",
+      "title": "User",
+      "description": "User registration data.",
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "description": "Full Name",
+          "type": "string"
+        },
+        "email": {
+          "description": "Email Address",
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "description": "Password",
+          "type": "string",
+          "minLength": 8
+        }
+      },
+
+      "required": ["email", "password", "fullName"]
+    }
+  }
+}
