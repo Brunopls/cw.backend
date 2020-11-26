@@ -1,6 +1,6 @@
 /**
  * JSON Schema-based validation on request/response data.
- * @module controllers/validator
+ * @module controllers/validationController
  * @author Bruno Correia
  * @see schemas/* JSON Schema definition files
  */
