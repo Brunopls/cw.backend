@@ -5,6 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
+    "lint": "node_modules/.bin/eslint .",
+    "lintfix": "node_modules/.bin/eslint . --fix",
+    "prettier": "npx prettier --write .",
+    "jsdoc": "./node_modules/jsdoc/jsdoc.js -c jsdoc.conf.json",
     "kill": "killall -9 node",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jsonschema": "^1.4.0",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^9.4.0",
@@ -22,6 +27,11 @@
     "nodemon": "^2.0.4"
   },
   "devDependencies": {
-    "prettier": "2.1.2"
+    "eslint": "^7.14.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "jsdoc": "^3.6.6",
+    "prettier": "2.2.0"
   }
 }
