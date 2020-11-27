@@ -3,6 +3,7 @@ const bodyParser = require("koa-bodyparser");
 const Users = require("../models/usersModel");
 const { validateUser } = require("../controllers/validationController");
 const authenticate = require("../controllers/authenticationController");
+const { generateJWT } = require("../helpers/authenticationHelper");
 
 const prefix = "/api/v1/users";
 const router = Router({ prefix });
@@ -12,7 +13,7 @@ async function createUser(ctx) {
   const result = await Users.addNewUser(body);
   if (result) {
     ctx.status = 201;
-    ctx.body = result;
+    ctx.body = {user: result, token: generateJWT(result)};
   }
 }
 
@@ -61,11 +62,10 @@ async function deleteUser(ctx) {
 }
 
 async function login(ctx) {
-  const { id, email, fullName, role } = ctx.state.user;
   const links = {
-    self: `${ctx.protocol}://${ctx.host}${prefix}/${id}`,
+    self: `${ctx.protocol}://${ctx.host}${prefix}/${ctx.state.user.id}`,
   };
-  ctx.body = { id, email, fullName, role };
+  ctx.body = { token: generateJWT(ctx.state.user) };
 }
 
 router.post("/login", authenticate, login);

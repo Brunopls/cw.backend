@@ -1,46 +1,26 @@
-const {JwtStrategy, ExtractJwt} = require('passport-jwt');
+const JwtStrategy = require("passport-jwt").Strategy;
+const { ExtractJwt } = require("passport-jwt");
 const Users = require("../models/usersModel");
+const { checkCredentials } = require("../helpers/authenticationHelper");
+const info = require("../../config");
+const passport = require("koa-passport");
 
-const opts = {}
+const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = 'secret';
-opts.issuer = 'accounts.examplesoft.com';
-opts.audience = 'yoursite.net';
+opts.secretOrKey = info.config.jwtSecret;
 
-// passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-//     User.findOne({id: jwt_payload.sub}, function(err, user) {
-//         if (err) {
-//             return done(err, false);
-//         }
-//         if (user) {
-//             return done(null, user);
-//         } else {
-//             return done(null, false);
-//             // or you could create a new account
-//         }
-//     });
-// }));
-
-async function checkPassword(requestPassword, password) {
-    return bcrypt.compare(password, requestPassword);
-}
-
-async function checkCredentials(payload, done) {
-    let user;
-    let message;
-    try {
-      user = await Users.getByEmail(payload.sub.email);
-    } catch (error) {
-      return done(error, {message: `Error during authentication for user ${email}`});
-    }
-    if (user) {
-      if (await checkPassword(user.password, password)) {
-        return done(null, user, {message: `Successfully authenticated user ${email}`});
-      }
-      message = `Password incorrect for user ${email}`
-    } else {
-      message = `No user found with email ${email}`
-    }
-    return done(null, false, message);
+const strategy = new JwtStrategy(opts, async (payload, done) => {
+  const userCredentials = await checkCredentials({_id:payload.sub})
+    console.log(userCredentials)
+  if (userCredentials.authenticated) {
+    passport.serializeUser(function(user, done) {
+      done(null, userCredentials.user._id);
+    });
+    return done(null, userCredentials.user);  
+  } else {
+    return done(null, false, { message: userCredentials.message });
   }
+});
+
+module.exports = strategy;
 
