@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: models/rolesModel.js</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -19,9 +19,70 @@
 
   <body>
     <div id="main">
-      <h1 class="page-title">Home</h1>
+      <h1 class="page-title">Source: models/rolesModel.js</h1>
 
-      <h3></h3>
+      <section>
+        <article>
+          <pre
+            class="prettyprint source linenums"
+          ><code>const mongoose = require("mongoose");
+
+const { Schema } = mongoose;
+
+/**
+ * @class Roles
+ * @property {String} title title of the role (i.e. 'admin')
+ * @property {String} description description of the role
+ */
+const RolesSchema = new Schema({
+  title: {
+    type: String,
+    unique: true,
+  },
+  description: {
+    type: String,
+  },
+});
+
+RolesSchema.statics = {
+  /**
+   * Get all roles
+   * @memberof Roles
+   * @async
+   * @returns {Promise&lt;Roles[]>} Array of Roles objects
+   */
+  async getAll() {
+    try {
+      return this.find({})
+        .exec()
+        .then((roles) => {
+          return roles;
+        });
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
+
+  /**
+   * Create new role using request body
+   * @memberof Roles
+   * @async
+   * @param {Object} body request body object
+   * @returns {Promise&lt;Role>} new Role object
+   */
+  async addNewRole(body) {
+    const newRole = new this({
+      title: body.title,
+      description: body.description,
+    });
+    return newRole.save();
+  },
+};
+
+module.exports = mongoose.model("Roles", RolesSchema);
+</code></pre>
+        </article>
+      </section>
     </div>
 
     <nav>

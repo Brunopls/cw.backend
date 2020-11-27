@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
+/**
+ * @class PropertyFeatures
+ * @property {String} title feature title (i.e. 'garden')
+ */
 const PropertiesFeaturesSchema = new Schema({
   title: {
     type: String,
@@ -9,8 +13,4 @@ const PropertiesFeaturesSchema = new Schema({
   },
 });
 
-const PropertiesFeatures = mongoose.model(
-  "PropertiesFeatures",
-  PropertiesFeaturesSchema
-);
-module.exports = PropertiesFeatures;
+module.exports = mongoose.model("PropertiesFeatures", PropertiesFeaturesSchema);

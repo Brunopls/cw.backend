@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: models/messagesModel.js</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -19,9 +19,55 @@
 
   <body>
     <div id="main">
-      <h1 class="page-title">Home</h1>
+      <h1 class="page-title">Source: models/messagesModel.js</h1>
 
-      <h3></h3>
+      <section>
+        <article>
+          <pre
+            class="prettyprint source linenums"
+          ><code>const mongoose = require("mongoose");
+
+const { Schema } = mongoose;
+
+/**
+ * @class Messages
+ * @property {String} text message text
+ * @property {String} inquirerEmail email of the inquirer
+ * @property {Date} dateSent date and time at which the message was sent
+ * @property {ObjectId} user destinated user
+ * @property {ObjectId} property  property the user is inquiring about
+ * @property {Boolean} archived if true, archives the message
+ */
+const MessagesSchema = new Schema({
+  text: {
+    type: String,
+    required: "Message text is required.",
+  },
+  inquirerEmail: {
+    type: String,
+    required: "Email is required.",
+  },
+  dateSent: {
+    type: Date,
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "Users",
+  },
+  property: {
+    type: Schema.Types.ObjectId,
+    ref: "Properties",
+  },
+  archived: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+module.exports = mongoose.model("Messages", MessagesSchema);
+</code></pre>
+        </article>
+      </section>
     </div>
 
     <nav>
