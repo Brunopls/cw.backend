@@ -17,16 +17,14 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = info.config.jwtSecret;
 
 const strategy = new JwtStrategy(opts, async (payload, done) => {
-  const userCredentials = await checkCredentials({_id:payload.sub})
+  const userCredentials = await checkCredentials({ _id: payload.sub });
   if (userCredentials.authenticated) {
     passport.serializeUser((_, doneSerialise) => {
       doneSerialise(null, userCredentials.user._id);
     });
-    return done(null, userCredentials.user);  
-  } 
-    return done(null, false, { message: userCredentials.message });
-  
+    return done(null, userCredentials.user);
+  }
+  return done(null, false, { message: userCredentials.message });
 });
 
 module.exports = strategy;
-

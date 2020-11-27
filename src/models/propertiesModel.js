@@ -41,7 +41,7 @@ const PropertiesSchema = new Schema({
     required: "Location is required.",
   },
   askingPrice: {
-    type: Schema.Types.Decimal128,
+    type: Number,
   },
   propertyCategory: {
     type: Schema.Types.ObjectId,
@@ -81,9 +81,11 @@ PropertiesSchema.statics = {
    * @async
    * @returns {Promise<Property[]>} Array of Property objects
    */
-  async getAll() {
+  async getAll(limit = 5, page = 1) {
     try {
       return this.find({})
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
         .exec()
         .then((properties) => {
           return properties;
@@ -91,6 +93,17 @@ PropertiesSchema.statics = {
     } catch (err) {
       return Promise.reject(err);
     }
+  },
+  /**
+   * Create new property using request body
+   * @memberof Users
+   * @async
+   * @param {Object} Property request body object
+   * @returns {Promise<Property>} new Property object
+   */
+  async addNewProperty(body) {
+    const newProperty = new this({ ...body });
+    return newProperty.save();
   },
 };
 

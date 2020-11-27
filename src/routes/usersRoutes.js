@@ -5,7 +5,7 @@ const { validateUser } = require("../controllers/validationController");
 const authenticate = require("../controllers/authenticationController");
 const { generateJWT } = require("../helpers/authenticationHelper");
 
-const prefix = "/api/v1/users";
+const prefix = "/api/users";
 const router = Router({ prefix });
 
 async function createUser(ctx) {
@@ -13,7 +13,7 @@ async function createUser(ctx) {
   const result = await Users.addNewUser(body);
   if (result) {
     ctx.status = 201;
-    ctx.body = {user: result, token: generateJWT(result)};
+    ctx.body = { user: result, token: generateJWT(result) };
   }
 }
 

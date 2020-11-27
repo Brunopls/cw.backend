@@ -137,4 +137,5 @@ UsersSchema.statics = {
     }
   },
 };
+
 module.exports = mongoose.model("Users", UsersSchema);

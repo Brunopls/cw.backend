@@ -37,4 +37,62 @@ const MessagesSchema = new Schema({
   },
 });
 
+MessagesSchema.statics = {
+  /**
+   * Get all messages related to a certain user or property
+   * @memberof Messages
+   * @async
+   * @returns {Promise<Messages[]>} Array of Messages objects
+   */
+  async getAll(user, limit = 5, page = 1) {
+    try {
+        return this.find({user})
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .exec()
+        .then((messages) => {
+          return messages;
+        });
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
+  /**
+   * Get a single message
+   * @memberof Messages
+   * @async
+   * @param {Integer} id Message ID
+   * @returns {Messages} Messages objects
+   */
+  async getByID(id) {
+    try {
+      return this.findById(id)
+        .exec()
+        .then((message) => {
+          return message;
+        });
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
+  /**
+   * Send a message to an estate agent
+   * @memberof Messages
+   * @async
+   * @returns {*} Array of Messages objects
+   */
+  async sendMessage(body) {
+    let statusMessage;
+    try {
+      let newMessage = new this({...body, dateSent: Date.now()});
+      newMessage = await newMessage.save();
+      statusMessage = "Inquiry sent successfully!"
+      return {newMessage, statusMessage}
+    } catch (err) {
+      statusMessage = "Error sending message."
+    }
+    return statusMessage;
+  },
+}
+
 module.exports = mongoose.model("Messages", MessagesSchema);
