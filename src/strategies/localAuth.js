@@ -7,9 +7,8 @@ async function authenticate(email, password, done) {
 
   if (userCredentials.authenticated) {
     return done(null, userCredentials.user);
-  } 
-    return done(null, false, { message: userCredentials.message });
-  
+  }
+  return done(null, false, { message: userCredentials.message });
 }
 
 module.exports = new LocalStrategy(authenticate);

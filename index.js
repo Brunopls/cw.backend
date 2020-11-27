@@ -22,12 +22,16 @@ mongoose.connect(info.config.database, info.config.mongoOptions, (err) => {
 mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);
 
-const userRoutes = require("./src/routes/usersRoutes");
-
 app.use(passport.initialize());
 app.use(passport.session());
 
+const userRoutes = require("./src/routes/usersRoutes");
+const propertiesRoutes = require("./src/routes/propertiesRoutes");
+const messagesRoutes = require("./src/routes/messagesRoutes");
+
 app.use(userRoutes.routes());
+app.use(propertiesRoutes.routes());
+app.use(messagesRoutes.routes());
 
 app.use(cors(options));
 app.listen(info.config.port, () =>
