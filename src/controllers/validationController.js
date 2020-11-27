@@ -17,7 +17,7 @@ const propertiesSchema = require("../schemas/properties.json").definitions
  * @param {string} resource Name of the resource e.g. 'user'
  * @returns {function} A Koa middleware handler taking (ctx, next) params
  */
-const makeKoaValidator = (schema, resource) => {
+const KoaValidatorFactory = (schema, resource) => {
   const validator = new Validator();
   const validationOptions = {
     throwError: true,
@@ -49,10 +49,10 @@ const makeKoaValidator = (schema, resource) => {
 };
 
 /** Validates user data against its respective schema */
-exports.validateUser = makeKoaValidator(usersSchema, "user");
+exports.validateUser = KoaValidatorFactory(usersSchema, "user");
 
 /** Validates message data against its respective schema */
-exports.validateMessage = makeKoaValidator(messageSchema, "message");
+exports.validateMessage = KoaValidatorFactory(messageSchema, "message");
 
 /** Validates property data against its respective schema */
-exports.validateProperty = makeKoaValidator(propertiesSchema, "property");
+exports.validateProperty = KoaValidatorFactory(propertiesSchema, "property");

@@ -1,6 +1,8 @@
+/* eslint-disable no-param-reassign, no-underscore-dangle */
+
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 const Users = require("../models/usersModel");
-var jwt = require('jsonwebtoken');
 const info = require("../../config");
 
 /**
@@ -10,26 +12,28 @@ const info = require("../../config");
  * @returns {Boolean} true if the passwords match, false if not
  */
 async function checkPassword(requestPassword, password) {
-  //compare(hashed, text)
+  // compare(hashed, text)
   return bcrypt.compare(password, requestPassword);
 }
 
 /**
  * Compares user credentials passed in the request with those in the database.
+ * Works for both JWT & Basic Auth strategies.
  * @param {Object} userReq user object passed in the request
  * @returns {Object} object
  */
 exports.checkCredentials = async (userReq) => {
-  let user, message;
+  let user; let message;
   try {
+    // if the request object contains an email, then it is validating a basic auth strategy
     if(userReq.email){
       user = await Users.getByEmail(userReq.email);
-    } else {
-      if(userReq._id){
+
+      // if the request object contains an ID, then it is validating a JWT strategy
+    } else if(userReq._id){
         user = await Users.getByID(userReq._id);
         return {user, authenticated: true, message: `Successfully authenticated user ${userReq.email}`}
       }
-    }
   } catch (error) {
     return {
       authenticated: false,
@@ -53,11 +57,11 @@ exports.checkCredentials = async (userReq) => {
 };
 
 exports.generateJWT = (user) => {
-  const _id = user._id;
+  const {_id} = user;
 
-  expiresIn = '1h';
+  const expiresIn = '1h';
 
-  payload = {
+  const payload = {
     sub: _id,
     iat: Date.now()
   };
@@ -65,7 +69,7 @@ exports.generateJWT = (user) => {
   const token = jwt.sign(payload, info.config.jwtSecret);
 
   return {
-    token: `Bearer ${token}`,
+    token: `${token}`,
     expires: expiresIn
   }
 }

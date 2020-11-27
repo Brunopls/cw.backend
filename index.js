@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign, no-console */
+
 const Koa = require("koa");
 const cors = require("@koa/cors");
 const passport = require("koa-passport");
@@ -21,6 +23,7 @@ mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);
 
 const userRoutes = require("./src/routes/usersRoutes");
+
 app.use(passport.initialize());
 app.use(passport.session());
 
