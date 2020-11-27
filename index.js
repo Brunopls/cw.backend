@@ -1,9 +1,15 @@
 const Koa = require("koa");
 
+const cors = require("@koa/cors");
+
+const hostname = "photo-shrink-3000.codio-box.uk";
+const options = {
+  origin: `https://${hostname}`,
+};
+
 const app = new Koa();
 const mongoose = require("mongoose");
 const info = require("./config");
-
 
 mongoose.Promise = global.Promise;
 mongoose.connect(info.config.database, info.config.mongoOptions, (err) => {
@@ -14,16 +20,10 @@ mongoose.connect(info.config.database, info.config.mongoOptions, (err) => {
 mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-let port = process.env.PORT || 3000;
+const userRoutes = require("./src/routes/usersRoutes");
 
-app.listen(port, () => console.log(`Listening on port ${port}.`));
-=======
-app.listen(info.config.port, () => console.log(`Listening on port ${info.config.port}.`));
->>>>>>> architecture/models
-=======
+app.use(userRoutes.routes());
+app.use(cors(options));
 app.listen(info.config.port, () =>
   console.log(`Listening on port ${info.config.port}.`)
 );
->>>>>>> architecture/models

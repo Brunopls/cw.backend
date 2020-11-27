@@ -13,7 +13,7 @@ const { Schema } = mongoose;
  * @property {Float} askingPrice asking price
  * @property {ObjectId} propertyCategory category (apartment, house, etc.)
  * @property {ObjectId} propertyFeatures features (has garden, has garage, etc.)
- * 
+ *
  */
 const PropertiesSchema = new Schema({
   title: {
@@ -55,7 +55,6 @@ const PropertiesSchema = new Schema({
   ],
 });
 
-
 PropertiesSchema.statics = {
   /**
    * Get property by ID
@@ -93,7 +92,6 @@ PropertiesSchema.statics = {
       return Promise.reject(err);
     }
   },
-}
+};
 
-const Properties = mongoose.model("Properties", PropertiesSchema);
-module.exports = Properties;
+module.exports = mongoose.model("Properties", PropertiesSchema);

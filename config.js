@@ -1,11 +1,7 @@
 exports.config = {
-<<<<<<< HEAD
-  connectionStr: "mongodb://localhost/blog_db",
-=======
   port: process.env.DB_PORT || 3000,
-  database: process.env.DB_DATABASE || "mongodb://localhost/blog_db",
+  database: process.env.DB_DATABASE || "mongodb://localhost/wesellhousesDB",
 
->>>>>>> architecture/models
   mongoOptions: {
     useNewUrlParser: true,
     useUnifiedTopology: true,

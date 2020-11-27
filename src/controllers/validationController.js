@@ -4,7 +4,6 @@
  * @author Bruno Correia
  * @see schemas/* JSON Schema definition files
  */
-
 const { Validator, ValidationError } = require("jsonschema");
 
 const usersSchema = require("../schemas/users.json").definitions.user;
@@ -14,7 +13,7 @@ const propertiesSchema = require("../schemas/properties.json").definitions
 
 /**
  * Returns a Koa middleware validator for each different schema.
- * @param {object} schema The JSON schema definition of the resource
+ * @param {Object} schema The JSON schema definition of the resource
  * @param {string} resource Name of the resource e.g. 'user'
  * @returns {function} A Koa middleware handler taking (ctx, next) params
  */
@@ -28,7 +27,7 @@ const makeKoaValidator = (schema, resource) => {
   /**
    * Middleware handler function
    * @async
-   * @param {object} ctx Koa context object
+   * @param {Object} ctx Koa context object
    * @param {function} next Koa next callback
    * @throws {ValidationError} JSON Schema library object
    */
@@ -39,7 +38,6 @@ const makeKoaValidator = (schema, resource) => {
       await next();
     } catch (error) {
       if (error instanceof ValidationError) {
-        // console.error(error);
         ctx.status = 400;
         ctx.body = error;
       } else {

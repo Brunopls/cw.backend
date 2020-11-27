@@ -2,6 +2,15 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
+/**
+ * @class Messages
+ * @property {String} text message text
+ * @property {String} inquirerEmail email of the inquirer
+ * @property {Date} dateSent date and time at which the message was sent
+ * @property {ObjectId} user destinated user
+ * @property {ObjectId} property  property the user is inquiring about
+ * @property {Boolean} archived if true, archives the message
+ */
 const MessagesSchema = new Schema({
   text: {
     type: String,
@@ -10,6 +19,9 @@ const MessagesSchema = new Schema({
   inquirerEmail: {
     type: String,
     required: "Email is required.",
+  },
+  dateSent: {
+    type: Date,
   },
   user: {
     type: Schema.Types.ObjectId,
@@ -25,5 +37,4 @@ const MessagesSchema = new Schema({
   },
 });
 
-const Messages = mongoose.model("Messages", MessagesSchema);
-module.exports = Messages;
+module.exports = mongoose.model("Messages", MessagesSchema);
