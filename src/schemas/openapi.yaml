@@ -1,0 +1,278 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: 'We Sell Houses API — 304CEM Assignment'
+  description: 'A web application that allows users (estate agents) to list houses for sale to the general public.'
+  contact:
+    name: Bruno Correia
+    email: olveirb@coventry.ac.uk
+    
+servers:
+  - url: https://photo-shrink-3000.codio-box.uk/api/
+    description: 'Development'
+
+tags:
+  - name: Users
+    description: user management endpoints
+  - name: Properties
+    description: property management endpoint
+  - name: Messages
+    description: message management endpoints
+
+paths:
+  /users/:
+    post:
+      tags:
+        - Users
+      summary: creates a new user
+      description: receives a \'User\' object, validates it & uses it to create a new user
+      parameters:
+        - name: body
+          in: query
+          description: \'User\' object
+          schema:
+            type: object
+      responses:
+        "201":
+          description: user created successfully
+          
+    get:
+      tags:
+        - Users
+      summary: fetches all users
+      description: returns a list of all users in the database
+      responses:
+        "200":
+          description: user fetched successfully
+          
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: fetches a user
+      description: receives an id and checks the database for a matching record which it then returns
+      parameters:
+        - name: id
+          in: path
+          description: user ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: user fetched successfully
+    put:
+      tags:
+        - Users
+      summary: updates a user
+      description: updates the record matching the id parameter
+      parameters:
+        - name: id
+          in: path
+          description: user ID
+          required: true
+          schema:
+            type: integer
+        - name: body
+          in: query
+          description: \'Users\' object
+          schema:
+            type: object
+      responses:
+        "200":
+          description: user fetched successfully
+          
+    delete:
+      tags:
+        - Users
+      summary: deletes a user
+      description: removes a user from the database
+      parameters:
+        - name: id
+          in: path
+          description: user ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: user deleted successfully
+  
+  /users/login/:
+    post:
+      tags:
+        - Users
+      summary: authenticates a user
+      description: authenticates a user & gives them a JSON web token
+      parameters:
+        - name: body
+          in: query
+          description: object containing login credentials
+          schema:
+            type: object
+      responses:
+        "201":
+          description: user created successfully
+  
+  /properties/:
+    post:
+      tags:
+        - Properties
+      summary: creates a property
+      description: receives a \'Properties\' object, validates it & uses it to create a new property
+      parameters:
+        - name: body
+          in: query
+          description: \'Properties\' object
+          schema:
+            type: object
+      responses:
+        "201":
+          description: user created successfully
+          
+    get:
+      tags:
+        - Properties
+      summary: fetches all properties
+      description: returns a list of all properties in the database
+      responses:
+        "200":
+          description: user fetched successfully
+          
+  /properties/{id}:
+    get:
+      tags:
+        - Properties
+      summary: fetches a property
+      description: receives an id and checks the database for a matching record which it then returns
+      parameters:
+        - name: id
+          in: path
+          description: property ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: property fetched successfully
+    put:
+      tags:
+        - Properties
+      summary: updates a property
+      description: updates the record matching the id parameter
+      parameters:
+        - name: id
+          in: path
+          description: property ID
+          required: true
+          schema:
+            type: integer
+        - name: body
+          in: query
+          description: \'Properties\' object
+          schema:
+            type: object
+      responses:
+        "200":
+          description: property updated successfully
+          
+    delete:
+      tags:
+        - Properties
+      summary: deletes a property
+      description: removes a property from the database
+      parameters:
+        - name: id
+          in: path
+          description: property ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: property deleted successfully
+  
+  /messages/:
+    post:
+      tags:
+        - Messages
+      summary: creates a message
+      description: receives a \'Messages\' object, validates it & uses it to create a new message
+      parameters:
+        - name: body
+          in: query
+          description: \'Messages\' object
+          schema:
+            type: object
+      responses:
+        "201":
+          description: message sent successfully
+          
+    get:
+      tags:
+        - Messages
+      summary: fetches all messages matching an id
+      description: returns a list of all messages in the database belonging to a certain user
+      parameters:
+        - name: user
+          in: query
+          description: user ID
+          schema:
+            type: object
+      responses:
+        "200":
+          description: user fetched successfully
+          
+  /messages/{id}:
+    get:
+      tags:
+        - Messages
+      summary: fetches a message
+      description: receives an id and checks the database for a matching record which it then returns
+      parameters:
+        - name: id
+          in: path
+          description: message ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: message fetched successfully
+    put:
+      tags:
+        - Messages
+      summary: updates a message
+      description: updates the record matching the id parameter<br>only updates the \'archived\' property
+      parameters:
+        - name: id
+          in: path
+          description: message ID
+          required: true
+          schema:
+            type: integer
+        - name: body
+          in: query
+          description: \'Messages\' object
+          schema:
+            type: object
+      responses:
+        "200":
+          description: property updated successfully
+          
+    delete:
+      tags:
+        - Messages
+      summary: deletes a message
+      description: removes a message from the database
+      parameters:
+        - name: id
+          in: path
+          description: message ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: message deleted successfully
+  
