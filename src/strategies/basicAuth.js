@@ -11,8 +11,8 @@ const { checkCredentials } = require("../helpers/authenticationHelper");
 
 async function authenticate(email, password, done) {
   const user = { email, password };
+  console.log("a");
   const userCredentials = await checkCredentials(user);
-
   if (userCredentials.authenticated) {
     passport.serializeUser((_, doneSerialise) => {
       doneSerialise(null, userCredentials.user._id);

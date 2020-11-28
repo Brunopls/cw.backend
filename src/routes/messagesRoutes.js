@@ -19,7 +19,7 @@ async function getById(ctx) {
 }
 
 async function getAll(ctx) {
-  let { limit = 10, page = 1 } = ctx.request.query;
+  const { limit = 10, page = 1 } = ctx.request.query;
   const { user } = ctx.request.body;
   const result = await Messages.getAll(user, limit, page);
 
