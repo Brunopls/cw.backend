@@ -1,15 +1,15 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: 'We Sell Houses API — 304CEM Assignment'
-  description: 'A web application that allows users (estate agents) to list houses for sale to the general public.'
+  title: "We Sell Houses API — 304CEM Assignment"
+  description: "A web application that allows users (estate agents) to list houses for sale to the general public."
   contact:
     name: Bruno Correia
     email: olveirb@coventry.ac.uk
-    
+
 servers:
   - url: https://photo-shrink-3000.codio-box.uk/api/
-    description: 'Development'
+    description: "Development"
 
 tags:
   - name: Users
@@ -35,7 +35,7 @@ paths:
       responses:
         "201":
           description: user created successfully
-          
+
     get:
       tags:
         - Users
@@ -44,7 +44,7 @@ paths:
       responses:
         "200":
           description: user fetched successfully
-          
+
   /users/{id}:
     get:
       tags:
@@ -81,7 +81,7 @@ paths:
       responses:
         "200":
           description: user fetched successfully
-          
+
     delete:
       tags:
         - Users
@@ -97,7 +97,7 @@ paths:
       responses:
         "200":
           description: user deleted successfully
-  
+
   /users/login/:
     post:
       tags:
@@ -113,7 +113,7 @@ paths:
       responses:
         "201":
           description: user created successfully
-  
+
   /properties/:
     post:
       tags:
@@ -129,7 +129,7 @@ paths:
       responses:
         "201":
           description: user created successfully
-          
+
     get:
       tags:
         - Properties
@@ -138,7 +138,7 @@ paths:
       responses:
         "200":
           description: user fetched successfully
-          
+
   /properties/{id}:
     get:
       tags:
@@ -175,7 +175,7 @@ paths:
       responses:
         "200":
           description: property updated successfully
-          
+
     delete:
       tags:
         - Properties
@@ -191,7 +191,7 @@ paths:
       responses:
         "200":
           description: property deleted successfully
-  
+
   /messages/:
     post:
       tags:
@@ -207,7 +207,7 @@ paths:
       responses:
         "201":
           description: message sent successfully
-          
+
     get:
       tags:
         - Messages
@@ -222,7 +222,7 @@ paths:
       responses:
         "200":
           description: user fetched successfully
-          
+
   /messages/{id}:
     get:
       tags:
@@ -259,7 +259,7 @@ paths:
       responses:
         "200":
           description: property updated successfully
-          
+
     delete:
       tags:
         - Messages
@@ -275,4 +275,3 @@ paths:
       responses:
         "200":
           description: message deleted successfully
-  

@@ -46,7 +46,7 @@ MessagesSchema.statics = {
    */
   async getAll(user, limit = 5, page = 1) {
     try {
-        return this.find({user})
+      return this.find({ user })
         .limit(limit * 1)
         .skip((page - 1) * limit)
         .exec()
@@ -84,15 +84,15 @@ MessagesSchema.statics = {
   async sendMessage(body) {
     let statusMessage;
     try {
-      let newMessage = new this({...body, dateSent: Date.now()});
+      let newMessage = new this({ ...body, dateSent: Date.now() });
       newMessage = await newMessage.save();
-      statusMessage = "Inquiry sent successfully!"
-      return {newMessage, statusMessage}
+      statusMessage = "Inquiry sent successfully!";
+      return { newMessage, statusMessage };
     } catch (err) {
-      statusMessage = "Error sending message."
+      statusMessage = "Error sending message.";
     }
     return statusMessage;
   },
-}
+};
 
 module.exports = mongoose.model("Messages", MessagesSchema);

@@ -45,11 +45,14 @@ UsersSchema.statics = {
    */
   async getByID(id) {
     try {
-      return this.findById(id)
-        .exec()
-        .then((user) => {
-          return user;
-        });
+      return (
+        this.findById(id)
+          .exec()
+          // .lean()
+          .then((user) => {
+            return user;
+          })
+      );
     } catch (err) {
       return Promise.reject(err);
     }
@@ -64,6 +67,7 @@ UsersSchema.statics = {
   async getAll() {
     try {
       return this.find({})
+        .lean()
         .exec()
         .then((users) => {
           return users;

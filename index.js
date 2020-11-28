@@ -1,4 +1,10 @@
 /* eslint-disable no-param-reassign, no-console */
+const fs = require('fs');
+let grants = fs.readFileSync('src/permissions/grants.json');
+
+grants = JSON.parse(grants)
+
+console.log(grants)
 
 const Koa = require("koa");
 const cors = require("@koa/cors");

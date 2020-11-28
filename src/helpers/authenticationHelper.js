@@ -28,11 +28,15 @@ exports.checkCredentials = async (userReq) => {
   try {
     // if the request object contains an email, then it is validating a basic auth strategy
     if (userReq.email) {
-      user = await Users.getByEmail(userReq.email);
+      user = await Users.getByEmail(userReq.email).then((results) => {
+        return results;
+      });
 
       // if the request object contains an ID, then it is validating a JWT strategy
     } else if (userReq._id) {
-      user = await Users.getByID(userReq._id);
+      user = await Users.getByID(userReq._id).then((results) => {
+        return results;
+      });
       return {
         user,
         authenticated: true,
@@ -61,6 +65,11 @@ exports.checkCredentials = async (userReq) => {
   return { authenticated: false, message };
 };
 
+/**
+ * Takes a user object & uses it to sign a JSON web token
+ * @param {Object} user user object
+ * @returns {Object} token object
+ */
 exports.generateJWT = (user) => {
   const { _id } = user;
 

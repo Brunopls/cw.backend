@@ -1,9 +1,12 @@
 const Router = require("koa-router");
 const bodyParser = require("koa-bodyparser");
 const Users = require("../models/usersModel");
+const Roles = require("../models/rolesModel");
 const { validateUser } = require("../controllers/validationController");
 const authenticate = require("../controllers/authenticationController");
+const { usersRBAC } = require("../controllers/rbacController");
 const { generateJWT } = require("../helpers/authenticationHelper");
+const permissions = require("../permissions/userPermissions");
 
 const prefix = "/api/users";
 const router = Router({ prefix });
@@ -17,29 +20,75 @@ async function createUser(ctx) {
   }
 }
 
-async function getAll(ctx) {
-  const { body } = ctx.request;
-  const result = await Users.getAll();
-  ctx.body = body;
+async function getAll(ctx, next) {
+  try {
+    let user = ctx.state.user.toJSON();
+    const role = await Roles.getByID(user.role);
+    user.role = role.title;
+    const permission = readAll(user);
 
-  if (result) {
-    ctx.status = 200;
-    ctx.body = result;
+    if (!permission.granted) {
+      ctx.status = 403;
+      return next();
+    } else {
+      //Converting Mongoose document to JSON so that it can be used in
+      const result = JSON.parse(JSON.stringify(await Users.getAll()));
+      if (result) {
+        ctx.status = 200;
+        ctx.body = permission.filter(result);
+      }
+    }
+  } catch (err) {
+    console.log(err);
   }
 }
 
-async function getById(ctx) {
+async function getById(ctx, next) {
   const { id } = ctx.params;
-  const result = await Users.getByID(id);
+  let user = ctx.state.user.toJSON();
+  const role = await Roles.getByID(user.role);
+  user.role = role.title;
+  
+  let permission;
+  if(String(id) === String(user._id)){
+    permission = permissions.readOwn(user);
+  } else {
+    permission = permissions.readAll(user);
+  }
+
+  if (!permission.granted) {
+    ctx.status = 403;
+    //Redirect to error page
+    return next();
+  }
+
+  const result = JSON.parse(JSON.stringify(await Users.getByID(id)));
 
   if (result) {
     ctx.status = 200;
-    ctx.body = result;
+    ctx.body = permission.filter(result);
   }
 }
 
-async function updateUser(ctx) {
+async function updateUser(ctx, next) {
+  let user = ctx.state.user.toJSON();
+  const role = await Roles.getByID(user.role);
+  user.role = role.title;
   const { id } = ctx.params;
+  
+  let permission;
+  if(String(id) === String(user._id)){
+    permission = permissions.updateOwn(user);
+  } else {
+    permission = permissions.updateAll(user);
+  }
+
+  if (!permission.granted) {
+    ctx.status = 403;
+    //Redirect to error page
+    return next();
+  }
+
   const { body } = ctx.request;
 
   const result = await Users.updateExistingUser(id, body);
@@ -51,8 +100,14 @@ async function updateUser(ctx) {
 }
 
 async function deleteUser(ctx) {
-  const { id } = ctx.params;
+  const permission = await usersRBAC("delete", ctx.state.user);
+  if (!permission.granted) {
+    ctx.status = 403;
+    //Redirect to error page
+    return next();
+  }
 
+  const { id } = ctx.params;
   const result = await Users.deleteExistingUser(id);
 
   if (result) {
@@ -69,10 +124,10 @@ async function login(ctx) {
 }
 
 router.post("/login", authenticate, login);
-router.get("/:id", getById);
+router.get("/:id", authenticate, getById);
 router.post("/", bodyParser(), validateUser, createUser);
 router.get("/", authenticate, getAll);
-router.put("/:id", bodyParser(), updateUser);
-router.del("/:id", deleteUser);
+router.put("/:id", bodyParser(), authenticate, updateUser);
+router.del("/:id", authenticate, deleteUser);
 
 module.exports = router;

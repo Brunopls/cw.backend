@@ -37,6 +37,25 @@ RolesSchema.statics = {
   },
 
   /**
+   * Get by ID
+   * @memberof Roles
+   * @async
+   * @param {Number} id role ID
+   * @returns {Promise<Roles>} Roles object
+   */
+  async getByID(id) {
+    try {
+      return this.findById(id)
+        .exec()
+        .then((role) => {
+          return role;
+        });
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
+
+  /**
    * Create new role using request body
    * @memberof Roles
    * @async

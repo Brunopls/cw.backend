@@ -43,6 +43,10 @@ const PropertiesSchema = new Schema({
   askingPrice: {
     type: Number,
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "Users",
+  },
   propertyCategory: {
     type: Schema.Types.ObjectId,
     ref: "PropertiesCategories",
