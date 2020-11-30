@@ -4,13 +4,16 @@
   "description": "Coursework repo for 340CM back-end.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "env:dev": "./node_modules/.bin/cross-env DB_DATABASE=wesellhousesDB",
+    "start": "./node_modules/.bin/cross-env DB_DATABASE=wesellhousesDB && nodemon index.js",
     "lint": "node_modules/.bin/eslint .",
     "lintfix": "node_modules/.bin/eslint . --fix",
     "prettier": "npx prettier --write .",
     "jsdoc": "./node_modules/jsdoc/jsdoc.js -c jsdoc.conf.json",
-    "kill": "killall -9 node",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "apidocs": "nodemon docs.js",
+    "testprep": "mongo test-wesellhousesDB --eval \"db.dropDatabase()\" && mongodump --archive --db=wesellhousesDB | mongorestore --archive  --nsFrom='wesellhousesDB.*' --nsTo='test-wesellhousesDB.*'",
+    "test": "./node_modules/.bin/cross-env DB_DATABASE=test-wesellhousesDB jest --detectOpenHandles --forceExit --testTimeout=10000",
+    "testWatch": "cross-env DB_DATABASE=test-wesellhousesDB jest --watch "
   },
   "repository": {
     "type": "git",
@@ -22,6 +25,7 @@
     "@koa/cors": "^3.1.0",
     "accesscontrol": "^2.2.1",
     "bcrypt": "^5.0.0",
+    "faker": "^5.1.0",
     "jsonschema": "^1.4.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.0",
@@ -38,11 +42,20 @@
     "role-acl": "^4.5.4"
   },
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "eslint": "^7.14.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-import": "^2.22.1",
+    "jest": "^26.6.3",
     "jsdoc": "^3.6.6",
-    "prettier": "2.2.0"
+    "prettier": "2.2.0",
+    "supertest": "^6.0.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

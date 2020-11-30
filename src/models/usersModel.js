@@ -48,7 +48,6 @@ UsersSchema.statics = {
       return (
         this.findById(id)
           .exec()
-          // .lean()
           .then((user) => {
             return user;
           })
@@ -71,6 +70,25 @@ UsersSchema.statics = {
         .exec()
         .then((users) => {
           return users;
+        });
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
+
+  /**
+   * Get one by role
+   * @memberof Users
+   * @async
+   * @returns {Promise<User>} User object
+   */
+  async getOneByRole(role) {
+    try {
+      return this.findOne({role})
+        .lean()
+        .exec()
+        .then((user) => {
+          return user;
         });
     } catch (err) {
       return Promise.reject(err);
@@ -108,7 +126,7 @@ UsersSchema.statics = {
       ...body,
       password: bcrypt.hashSync(body.password, body.passwordSalt),
     });
-    return newUser.save();
+    return newUser.save();;
   },
   /**
    * Update an existing user using request body
@@ -135,7 +153,7 @@ UsersSchema.statics = {
    */
   async deleteExistingUser(id) {
     try {
-      return this.findByIdAndRemove(id);
+      return this.findByIdAndDelete(id);
     } catch (err) {
       return Promise.reject(err);
     }

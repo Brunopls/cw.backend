@@ -36,6 +36,9 @@
             "read:own": [
                 "*"
             ],
+            "delete:own": [
+                "*"
+            ],
             "update:own": [
                 "*"
             ]

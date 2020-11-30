@@ -1,5 +1,6 @@
 const AccessControl = require("accesscontrol");
 const fs = require('fs');
+
 let grants = fs.readFileSync('src/permissions/grants.json');
 grants = JSON.parse(grants)
 
@@ -38,6 +39,22 @@ exports.updateAll = (requester) => {
 exports.updateOwn = (requester) => {
   try {
     return ac.can(requester.role).updateOwn("users");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.deleteAny = (requester) => {
+  try {
+    return ac.can(requester.role).deleteAny("users");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.deleteOwn = (requester) => {
+  try {
+    return ac.can(requester.role).deleteOwn("users");
   } catch (err) {
     console.log(err);
   }

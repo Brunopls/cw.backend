@@ -73,17 +73,11 @@ exports.checkCredentials = async (userReq) => {
 exports.generateJWT = (user) => {
   const { _id } = user;
 
-  const expiresIn = "1h";
-
   const payload = {
     sub: _id,
     iat: Date.now(),
   };
 
   const token = jwt.sign(payload, info.config.jwtSecret);
-
-  return {
-    token: `${token}`,
-    expires: expiresIn,
-  };
+  return token;
 };
