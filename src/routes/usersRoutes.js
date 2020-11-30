@@ -18,7 +18,7 @@ async function createUser(ctx) {
     result = result.toJSON();
     result.token = generateJWT(result)
     ctx.status = 201;
-    //Need to update this since token is passed in result now
+    // Need to update this since token is passed in result now
     ctx.body = { user: result, token: generateJWT(result) };
   }
 }
@@ -103,7 +103,7 @@ async function updateUser(ctx, next) {
 }
 
 async function deleteUser(ctx, next) {
-  let user = ctx.state.user.toJSON();
+  const user = ctx.state.user.toJSON();
   const role = await Roles.getByID(user.role);
   user.role = role.title;
   const { id } = ctx.params;

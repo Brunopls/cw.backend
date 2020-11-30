@@ -1,10 +1,10 @@
 const request = require('supertest')
+const faker = require('faker');
 const app = require('../../../../app')
 const Users = require("../../../models/usersModel")
 const Roles = require("../../../models/rolesModel")
-var faker = require('faker');
 
-//Returns a Roles object for the purpose of testing.
+// Returns a Roles object for the purpose of testing.
 async function getMockRole(title) {
     const test = await Roles.getOneByTitle(title)
     return test;
@@ -38,7 +38,7 @@ const userToCreate = await validUserObject(role);
 }
 
 describe("adminDeletePermissions", () => {
-    let user, userToDelete, token;
+    let user; let userToDelete; let token;
 
     beforeEach(async () => {
         user = await createUser('admin')
@@ -71,7 +71,7 @@ describe("adminDeletePermissions", () => {
 })
 
 describe("agentDeletePermissions", () => {
-    let user, token;
+    let user; let token;
 
     beforeEach(async () => {
         const userToCreate = await validUserObject("agent");

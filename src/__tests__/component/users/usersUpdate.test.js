@@ -1,8 +1,8 @@
 const request = require('supertest')
+const faker = require('faker');
 const app = require('../../../../app')
 const Users = require("../../../models/usersModel")
 const Roles = require("../../../models/rolesModel")
-var faker = require('faker');
 
 // WHAT is being tested, under what CIRCUMSTANCES and what is the EXPECTED RESULT 
 describe("agentUpdatePermissions", () => {

@@ -1,10 +1,10 @@
 const request = require('supertest')
+const faker = require('faker');
 const app = require('../../../../app')
 const Users = require("../../../models/usersModel")
 const Roles = require("../../../models/rolesModel")
-var faker = require('faker');
 
-//Returns a Roles object for the purpose of testing.
+// Returns a Roles object for the purpose of testing.
 async function getMockRole() {
   const test = await Roles.getOneByTitle('agent') 
   return test;
@@ -19,7 +19,7 @@ const validUserObject = async () => {
   role: await getMockRole()._id}
 }
 
-//Fails validation - password too short
+// Fails validation - password too short
 const invalidUserObject = async () => {
   return{ 
     email: faker.internet.email(),
@@ -54,7 +54,7 @@ describe("generalPublicCreate", () => {
       await Users.deleteExistingUser(newUser._id);
     })
 
-    //Populates a variable with a valid object
+    // Populates a variable with a valid object
     newUser = await validUserObject();
     return await request(app.callback())
       .post('/api/users')
@@ -69,7 +69,7 @@ describe("generalPublicCreate", () => {
   });
 
   test("generalPublicCreateInvalidUserFalse", async () => {
-    //Populates a variable with an invalid object
+    // Populates a variable with an invalid object
     const userToAdd = await invalidUserObject();
     return await request(app.callback())
       .post('/api/users')
