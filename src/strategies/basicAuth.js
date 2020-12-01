@@ -18,7 +18,7 @@ async function authenticate(email, password, done) {
     });
 
     return done(null, userCredentials.user);
-  } 
+  }
   return done(null, false, { message: userCredentials.message });
 }
 

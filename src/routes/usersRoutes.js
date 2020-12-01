@@ -1,10 +1,10 @@
+/* eslint consistent-return: 0 */
 const Router = require("koa-router");
 const bodyParser = require("koa-bodyparser");
 const Users = require("../models/usersModel");
 const Roles = require("../models/rolesModel");
 const { validateUser } = require("../controllers/validationController");
 const authenticate = require("../controllers/authenticationController");
-const { usersRBAC } = require("../controllers/rbacController");
 const { generateJWT } = require("../helpers/authenticationHelper");
 const permissions = require("../permissions/userPermissions");
 
@@ -16,7 +16,7 @@ async function createUser(ctx) {
   let result = await Users.addNewUser(body);
   if (result) {
     result = result.toJSON();
-    result.token = generateJWT(result)
+    result.token = generateJWT(result);
     ctx.status = 201;
     // Need to update this since token is passed in result now
     ctx.body = { user: result, token: generateJWT(result) };
@@ -33,14 +33,13 @@ async function getAll(ctx, next) {
     if (!permission.granted) {
       ctx.status = 403;
       return next();
-    } 
-      // Converting Mongoose document to JSON so that it can be used in
-      const result = JSON.parse(JSON.stringify(await Users.getAll()));
-      if (result) {
-        ctx.status = 200;
-        ctx.body = permission.filter(result);
-      }
-    
+    }
+    // Converting Mongoose document to JSON so that it can be used in
+    const result = JSON.parse(JSON.stringify(await Users.getAll()));
+    if (result) {
+      ctx.status = 200;
+      ctx.body = permission.filter(result);
+    }
   } catch (err) {
     console.log(err);
   }
@@ -51,9 +50,9 @@ async function getById(ctx, next) {
   const user = ctx.state.user.toJSON();
   const role = await Roles.getByID(user.role);
   user.role = role.title;
-  
+
   let permission;
-  if(String(id) === String(user._id)){
+  if (String(id) === String(user._id)) {
     permission = permissions.readOwn(user);
   } else {
     permission = permissions.readAll(user);
@@ -78,9 +77,9 @@ async function updateUser(ctx, next) {
   const role = await Roles.getByID(user.role);
   user.role = role.title;
   const { id } = ctx.params;
-  
+
   let permission;
-  if(String(id) === String(user._id)){
+  if (String(id) === String(user._id)) {
     permission = permissions.updateOwn(user);
   } else {
     permission = permissions.updateAll(user);
@@ -103,13 +102,13 @@ async function updateUser(ctx, next) {
 }
 
 async function deleteUser(ctx, next) {
+  const { id } = ctx.params;
   const user = ctx.state.user.toJSON();
   const role = await Roles.getByID(user.role);
   user.role = role.title;
-  const { id } = ctx.params;
 
   let permission;
-  if(String(id) === String(user._id)){
+  if (String(id) === String(user._id)) {
     permission = permissions.deleteOwn(user);
   } else {
     permission = permissions.deleteAny(user);
@@ -132,7 +131,7 @@ async function login(ctx) {
   const links = {
     self: `${ctx.protocol}://${ctx.host}${prefix}/${ctx.state.user.id}`,
   };
-  ctx.body = { token: generateJWT(ctx.state.user) };
+  ctx.body = { token: generateJWT(ctx.state.user), links };
 }
 
 router.post("/login", authenticate, login);

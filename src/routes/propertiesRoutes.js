@@ -1,3 +1,4 @@
+/* eslint radix: 0 */
 const Router = require("koa-router");
 const bodyParser = require("koa-bodyparser");
 const Properties = require("../models/propertiesModel");
@@ -63,7 +64,7 @@ async function sendMessage(ctx) {
 
 router.get("/", getAll);
 router.get("/:id", getById);
-router.post("/", bodyParser(), authenticate, createProperty);
+router.post("/", bodyParser(), authenticate, validateProperty, createProperty);
 router.post("/message", bodyParser(), sendMessage);
 
 module.exports = router;

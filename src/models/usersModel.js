@@ -45,13 +45,11 @@ UsersSchema.statics = {
    */
   async getByID(id) {
     try {
-      return (
-        this.findById(id)
-          .exec()
-          .then((user) => {
-            return user;
-          })
-      );
+      return this.findById(id)
+        .exec()
+        .then((user) => {
+          return user;
+        });
     } catch (err) {
       return Promise.reject(err);
     }
@@ -84,7 +82,7 @@ UsersSchema.statics = {
    */
   async getOneByRole(role) {
     try {
-      return this.findOne({role})
+      return this.findOne({ role })
         .lean()
         .exec()
         .then((user) => {
@@ -126,7 +124,7 @@ UsersSchema.statics = {
       ...body,
       password: bcrypt.hashSync(body.password, body.passwordSalt),
     });
-    return newUser.save();;
+    return newUser.save();
   },
   /**
    * Update an existing user using request body

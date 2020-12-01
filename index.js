@@ -14,12 +14,16 @@ const mongoose = require("mongoose");
 const info = require("./config");
 
 mongoose.Promise = global.Promise;
-mongoose.connect(`${info.config.DB_HOST}${info.config.DB_DATABASE}`, info.config.mongoOptions, (err) => {
-  if (err) throw err;
-  console.log("Successfully connected to MongoDB.");
-});
+mongoose.connect(
+  `${info.config.DB_HOST}${info.config.DB_DATABASE}`,
+  info.config.mongoOptions,
+  (err) => {
+    if (err) throw err;
+    console.log("Successfully connected to MongoDB.");
+  }
+);
 
-mongoose.set("useCreateIndex", true); 
+mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);
 
 app.use(passport.initialize());

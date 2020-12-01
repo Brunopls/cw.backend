@@ -64,7 +64,7 @@ RolesSchema.statics = {
    */
   async getOneByTitle(title) {
     try {
-      return this.findOne({title})
+      return this.findOne({ title })
         .exec()
         .then((role) => {
           return role;

@@ -109,6 +109,21 @@ PropertiesSchema.statics = {
     const newProperty = new this({ ...body });
     return newProperty.save();
   },
+
+  /**
+   * Delete an existing property
+   * @memberof Users
+   * @async
+   * @param {Integer} id ID of the property to be removed
+   * @returns {Promise<User>} TODO
+   */
+  async deleteExistingProperty(id) {
+    try {
+      return this.findByIdAndDelete(id);
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
 };
 
 module.exports = mongoose.model("Properties", PropertiesSchema);
