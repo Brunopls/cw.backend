@@ -24,24 +24,32 @@ describe("generalPublicReadPermissions", () => {
   });
 
   test("generalPublicReadAnyTrue", async () => {
-    return await request(app.callback())
+    let result;
+
+    await request(app.callback())
       .get(`/api/properties/`)
       .then((response) => {
-        expect(response.statusCode).toEqual(200);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
-  });
+      
+      expect(result.statusCode).toEqual(200);
+    });
 
-  test.only("generalPublicReadOneTrue", async () => {
-    return await request(app.callback())
+  test("generalPublicReadOneTrue", async () => {
+    let result;
+
+    await request(app.callback())
       .get(`/api/properties/${property._id}`)
       .then((response) => {
-        expect(response.statusCode).toEqual(200);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
+
+      expect(result.statusCode).toEqual(200);
   });
 });

@@ -60,16 +60,20 @@ describe("adminDeletePermissions", () => {
   });
 
   test("adminDeleteAnyTrue", async () => {
-    return await request(app.callback())
+    let result;
+
+    await request(app.callback())
       .delete(`/api/users/${userToDelete._id}`)
       .set("Authorization", `Bearer ${token}`)
       .then((response) => {
-        expect(response.statusCode).toEqual(204);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
-  });
+
+      expect(result.statusCode).toEqual(204);
+    });
 });
 
 describe("agentDeletePermissions", () => {
@@ -94,16 +98,20 @@ describe("agentDeletePermissions", () => {
   });
 
   test("agentDeleteOwnTrue", async () => {
-    return await request(app.callback())
+    let result;
+
+    await request(app.callback())
       .delete(`/api/users/${user._id}`)
       .set("Authorization", `Bearer ${token}`)
       .then((response) => {
-        expect(response.statusCode).toEqual(204);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
-  });
+
+      expect(result.statusCode).toEqual(204);
+    });
 });
 
 describe("generalPublicDeletePermissions", () => {
@@ -124,13 +132,17 @@ describe("generalPublicDeletePermissions", () => {
   });
 
   test("generalPublicDeleteAnyFalse", async () => {
-    return await request(app.callback())
+    let result;
+
+    await request(app.callback())
       .delete(`/api/users/${user._id}`)
       .then((response) => {
-        expect(response.statusCode).toEqual(401);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
-  });
+
+      expect(result.statusCode).toEqual(401);
+    });
 });

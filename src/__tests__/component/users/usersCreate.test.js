@@ -48,6 +48,8 @@ describe("generalPublicCreate", () => {
   });
 
   test("generalPublicCreateValidUserTrue", async () => {
+    let result;
+
     /*
      * Since this test will be run, and thus the value be added to the Mongoose document successfully,
      * running this block after each test will ensure that the new data is removed.
@@ -55,32 +57,38 @@ describe("generalPublicCreate", () => {
     afterEach(async () => {
       await Users.deleteExistingUser(newUser._id);
     });
-
     // Populates a variable with a valid object
     newUser = await validUserObject();
-    return await request(app.callback())
+    
+    await request(app.callback())
       .post("/api/users")
       .send(newUser)
       .then((response) => {
         newUser = response.body.user;
-        expect(response.statusCode).toEqual(201);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
-  });
+
+      expect(result.statusCode).toEqual(201);
+    });
 
   test("generalPublicCreateInvalidUserFalse", async () => {
+    let result;
+
     // Populates a variable with an invalid object
     const userToAdd = await invalidUserObject();
-    return await request(app.callback())
+    await request(app.callback())
       .post("/api/users")
       .send(userToAdd)
       .then((response) => {
-        expect(response.statusCode).toEqual(400);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
-  });
+
+      expect(result.statusCode).toEqual(400);
+    });
 });

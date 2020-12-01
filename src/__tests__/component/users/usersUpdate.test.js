@@ -28,33 +28,41 @@ describe("agentUpdatePermissions", () => {
   });
 
   test("agentUpdateOwnTrue", async () => {
+    let result;
     const newName = faker.name.findName();
     user.fullName = newName;
-    return await request(app.callback())
+
+    await request(app.callback())
       .put(`/api/users/${user._id}`)
       .send(user)
       .set("Authorization", `Bearer ${token}`)
       .then((response) => {
-        expect(response.statusCode).toEqual(204);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
+
+      expect(result.statusCode).toEqual(204);
   });
 
   test("agentUpdateAnyFalse", async () => {
+    let result;
     role = await Roles.getOneByTitle("admin");
     user = await Users.getOneByRole(role._id);
-    return await request(app.callback())
+
+    await request(app.callback())
       .put(`/api/users/${user._id}`)
       .set("Authorization", `Bearer ${token}`)
       .then((response) => {
-        expect(response.statusCode).toEqual(403);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
-  });
+
+      expect(result.statusCode).toEqual(403);
+    });
 });
 
 describe("adminUpdatePermissions", () => {
@@ -80,22 +88,25 @@ describe("adminUpdatePermissions", () => {
   });
 
   test("adminUpdateAnyTrue", async () => {
+    let result;
     role = await Roles.getOneByTitle("agent");
     user = await Users.getOneByRole(role._id);
     const newName = faker.name.findName();
     user.fullName = newName;
 
-    return await request(app.callback())
+    await request(app.callback())
       .put(`/api/users/${user._id}`)
       .send(user)
       .set("Authorization", `Bearer ${token}`)
       .then((response) => {
-        expect(response.statusCode).toEqual(204);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
-  });
+
+      expect(result.statusCode).toEqual(204);
+    });
 });
 
 describe("generalPublicUpdatePermissions", () => {
@@ -115,13 +126,17 @@ describe("generalPublicUpdatePermissions", () => {
   });
 
   test("generalPublicUpdateAnyFalse", async () => {
-    return await request(app.callback())
+    let result;
+
+    await request(app.callback())
       .put(`/api/users/${user._id}`)
       .then((response) => {
-        expect(response.statusCode).toEqual(401);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
-  });
+
+      expect(result.statusCode).toEqual(401);
+    });
 });

@@ -27,7 +27,7 @@
     },
     "properties": {
       "read:any": ["*"],
-      "create:own": ["*"],
+      "create:any": ["*"],
       "update:own": ["*"],
       "delete:own": ["*"]
     },

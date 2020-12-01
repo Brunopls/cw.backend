@@ -33,28 +33,36 @@ describe("agentUpdatePermissions", () => {
   });
 
   test("agentUpdateOwnTrue", async () => {
-    return await request(app.callback())
+    let result;
+
+    await request(app.callback())
       .put(`/api/messages/${message.newMessage._id}`)
       .send(updatedMessage)
       .set("Authorization", `Bearer ${user.token}`)
       .then((response) => {
-        expect(response.statusCode).toEqual(204);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
+
+      expect(result.statusCode).toEqual(204);
   });
 
   test("agentUpdateOtherFalse", async () => {
-    return await request(app.callback())
+    let result;
+
+    await request(app.callback())
       .put(`/api/messages/${secondMessage.newMessage._id}`)
       .send(updatedMessage)
       .set("Authorization", `Bearer ${user.token}`)
       .then((response) => {
-        expect(response.statusCode).toEqual(403);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
+
+      expect(result.statusCode).toEqual(403);
   });
 });

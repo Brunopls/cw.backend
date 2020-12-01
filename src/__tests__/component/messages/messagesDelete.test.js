@@ -29,26 +29,34 @@ describe("agentDeletePermissions", () => {
   });
 
   test("agentDeleteOwnTrue", async () => {
-    return await request(app.callback())
+    let result; 
+
+    await request(app.callback())
       .delete(`/api/messages/${message.newMessage._id}`)
       .set("Authorization", `Bearer ${user.token}`)
       .then((response) => {
-        expect(response.statusCode).toEqual(204);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
-  });
+
+      expect(result.statusCode).toEqual(204);
+    });
 
   test("agentDeleteOtherFalse", async () => {
-    return await request(app.callback())
+    let result;
+
+    await request(app.callback())
       .delete(`/api/messages/${secondMessage.newMessage._id}`)
       .set("Authorization", `Bearer ${user.token}`)
       .then((response) => {
-        expect(response.statusCode).toEqual(403);
+        result = response;
       })
       .catch((err) => {
         console.log(err);
       });
+
+      expect(result.statusCode).toEqual(403);
   });
 });
