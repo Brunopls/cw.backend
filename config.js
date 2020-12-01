@@ -1,6 +1,8 @@
 exports.config = {
   port: process.env.DB_PORT || 3000,
-  database: process.env.DB_DATABASE || "mongodb://localhost/wesellhousesDB",
+  DB_DATABASE: "wesellhousesDB",
+  DB_DATABASE_TEST: "test-wesellhousesDB",
+  DB_HOST: "mongodb://localhost/",
   jwtSecret: process.env.JWT_SECRET || "secreto",
   mongoOptions: {
     useNewUrlParser: true,

@@ -9,7 +9,7 @@ const ac = new AccessControl(grants);
 
 exports.readAll = (requester) => {
   try {
-    return ac.can(requester.role).readAny("users");
+    return ac.can(requester.role).readAny("properties");
   } catch (err) {
     console.log(err);
   }
@@ -17,7 +17,7 @@ exports.readAll = (requester) => {
 
 exports.readOwn = (requester) => {
   try {
-    return ac.can(requester.role).readOwn("users");
+    return ac.can(requester.role).readOwn("properties");
   } catch (err) {
     console.log(err);
   }
@@ -25,7 +25,7 @@ exports.readOwn = (requester) => {
 
 exports.updateAll = (requester) => {
   try {
-    return ac.can(requester.role).updateAny("users");
+    return ac.can(requester.role).updateAny("properties");
   } catch (err) {
     console.log(err);
   }
@@ -33,7 +33,7 @@ exports.updateAll = (requester) => {
 
 exports.updateOwn = (requester) => {
   try {
-    return ac.can(requester.role).updateOwn("users");
+    return ac.can(requester.role).updateOwn("properties");
   } catch (err) {
     console.log(err);
   }
@@ -41,7 +41,7 @@ exports.updateOwn = (requester) => {
 
 exports.deleteAny = (requester) => {
   try {
-    return ac.can(requester.role).deleteAny("users");
+    return ac.can(requester.role).deleteAny("properties");
   } catch (err) {
     console.log(err);
   }
@@ -49,7 +49,7 @@ exports.deleteAny = (requester) => {
 
 exports.deleteOwn = (requester) => {
   try {
-    return ac.can(requester.role).deleteOwn("users");
+    return ac.can(requester.role).deleteOwn("properties");
   } catch (err) {
     console.log(err);
   }

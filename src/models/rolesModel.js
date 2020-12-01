@@ -56,6 +56,25 @@ RolesSchema.statics = {
   },
 
   /**
+   * Get by title
+   * @memberof Roles
+   * @async
+   * @param {String} title title
+   * @returns {Promise<Roles>} Roles object
+   */
+  async getOneByTitle(title) {
+    try {
+      return this.findOne({ title })
+        .exec()
+        .then((role) => {
+          return role;
+        });
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
+
+  /**
    * Create new role using request body
    * @memberof Roles
    * @async
@@ -71,4 +90,4 @@ RolesSchema.statics = {
   },
 };
 
-module.exports = mongoose.model("Roles", RolesSchema);
+module.exports = mongoose.model("Roles", RolesSchema, "roles");

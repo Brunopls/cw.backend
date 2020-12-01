@@ -100,14 +100,43 @@ PropertiesSchema.statics = {
   },
   /**
    * Create new property using request body
-   * @memberof Users
+   * @memberof Properties
    * @async
    * @param {Object} Property request body object
-   * @returns {Promise<Property>} new Property object
+   * @returns {Property} new Property object
    */
   async addNewProperty(body) {
     const newProperty = new this({ ...body });
     return newProperty.save();
+  },
+  /**
+   * Update an existing property using request body
+   * @memberof Properties
+   * @async
+   * @param {Object} body request body object
+   * @param {Integer} id ID of the property to be updated
+   * @returns {Object} updated Properties object
+   */
+  async updateExistingProperties(id, body) {
+    try {
+      return this.findByIdAndUpdate(id, body);
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
+  /**
+   * Delete an existing property
+   * @memberof Properties
+   * @async
+   * @param {Integer} id ID of the property to be removed
+   * @returns {Boolean} TODO
+   */
+  async deleteExistingProperty(id) {
+    try {
+      return this.findByIdAndDelete(id);
+    } catch (err) {
+      return Promise.reject(err);
+    }
   },
 };
 

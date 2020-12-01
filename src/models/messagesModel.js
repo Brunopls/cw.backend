@@ -22,6 +22,7 @@ const MessagesSchema = new Schema({
   },
   dateSent: {
     type: Date,
+    default: Date.now(),
   },
   user: {
     type: Schema.Types.ObjectId,
@@ -92,6 +93,32 @@ MessagesSchema.statics = {
       statusMessage = "Error sending message.";
     }
     return statusMessage;
+  },
+  /**
+   * Deletes a message from the database
+   * @memberof Messages
+   * @async
+   * @returns {*} A status message
+   */
+  async deleteExistingMessage(id) {
+    try {
+      return this.findByIdAndDelete(id);
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
+  /**
+   * Deletes a message from the database
+   * @memberof Messages
+   * @async
+   * @returns {*} A status message
+   */
+  async updateExistingMessage(id, body) {
+    try {
+      return this.findByIdAndUpdate(id, body);
+    } catch (err) {
+      return Promise.reject(err);
+    }
   },
 };
 

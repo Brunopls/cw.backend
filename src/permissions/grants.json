@@ -1,69 +1,40 @@
 {
-    "admin": {
-        "users": {
-            "create:any": [
-                "*"
-            ],
-            "delete:any": [
-                "*"
-            ],
-            "update:any": [
-                "*"
-            ],
-            "read:any": [
-                "*",
-                "!password",
-                "!passwordSalt"
-            ]
-        },
-        "properties": {
-            "read:any": [
-                "*"
-            ],
-            "create:any": [
-                "*"
-            ],
-            "update:any": [
-                "*"
-            ],
-            "delete:any": [
-                "*"
-            ]
-        }
+  "admin": {
+    "users": {
+      "create:any": ["*"],
+      "delete:any": ["*"],
+      "update:any": ["*"],
+      "read:any": ["*", "!password", "!passwordSalt"]
     },
-    "agent": {
-        "users": {
-            "read:own": [
-                "*"
-            ],
-            "update:own": [
-                "*"
-            ]
-        },
-        "properties": {
-            "read:any": [
-                "*"
-            ],
-            "create:own": [
-                "*"
-            ],
-            "update:own": [
-                "*"
-            ],
-            "delete:own": [
-                "*"
-            ]
-        },
-        "messages": {
-            "read:own": [
-                "*"
-            ],
-            "update:own": [
-                "*"
-            ],
-            "delete:own": [
-                "*"
-            ]
-        }
+    "properties": {
+      "read:any": ["*"],
+      "create:any": ["*"],
+      "update:any": ["*"],
+      "delete:any": ["*"]
+    },
+    "messages": {
+      "read:any": ["*"],
+      "create:any": ["*"],
+      "update:any": ["*"],
+      "delete:any": ["*"]
     }
+  },
+  "agent": {
+    "users": {
+      "read:own": ["*"],
+      "delete:own": ["*"],
+      "update:own": ["*"]
+    },
+    "properties": {
+      "read:any": ["*"],
+      "create:any": ["*"],
+      "update:own": ["*"],
+      "delete:own": ["*"]
+    },
+    "messages": {
+      "read:own": ["*"],
+      "update:own": ["*"],
+      "delete:own": ["*"]
+    }
+  }
 }
