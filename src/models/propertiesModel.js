@@ -110,6 +110,7 @@ PropertiesSchema.statics = {
    */
   async addNewProperty(body) {
     const error = new APIError("Error creating property.");
+    if(body === undefined || body.title === undefined) return error;
     try {
       const newProperty = new this({ ...body });
       return await newProperty.save();

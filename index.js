@@ -12,6 +12,7 @@ const options = {
 const app = new Koa();
 const mongoose = require("mongoose");
 const info = require("./config");
+console.log(`${info.config.DB_HOST}${info.config.DB_DATABASE}`)
 
 mongoose.Promise = global.Promise;
 mongoose.connect(

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-
+const APIError = require("../helpers/apiErrorHandling");
 const { Schema } = mongoose;
 
 /**
@@ -44,6 +44,8 @@ UsersSchema.statics = {
    * @returns {Promise<User>} User object
    */
   async getByID(id) {
+    const error = new APIError("Error retrieving record.");
+    if (!mongoose.Types.ObjectId.isValid(id)) return error;
     try {
       return this.findById(id)
         .exec()
@@ -62,6 +64,7 @@ UsersSchema.statics = {
    * @returns {Promise<User[]>} Array of User objects
    */
   async getAll() {
+    const error = new APIError("Error retrieving record.");
     try {
       return this.find({})
         .lean()
@@ -69,8 +72,8 @@ UsersSchema.statics = {
         .then((users) => {
           return users;
         });
-    } catch (err) {
-      return Promise.reject(err);
+    } catch {
+      return error;
     }
   },
 
@@ -81,6 +84,8 @@ UsersSchema.statics = {
    * @returns {Promise<User>} User object
    */
   async getOneByRole(role) {
+    const error = new APIError("Error retrieving record.");
+    if (role === undefined) return error;
     try {
       return this.findOne({ role })
         .lean()
@@ -88,8 +93,8 @@ UsersSchema.statics = {
         .then((user) => {
           return user;
         });
-    } catch (err) {
-      return Promise.reject(err);
+    } catch {
+      return error;
     }
   },
 
@@ -101,14 +106,16 @@ UsersSchema.statics = {
    * @returns {Promise<User>} User object
    */
   async getByEmail(email) {
+    const error = new APIError("Error retrieving record.");
+    if(email === undefined) return error;
     try {
       return this.findOne({ email })
         .exec()
         .then((user) => {
           return user;
         });
-    } catch (err) {
-      return Promise.reject(err);
+    } catch {
+      return error;
     }
   },
 
@@ -120,11 +127,17 @@ UsersSchema.statics = {
    * @returns {Promise<User>} new User object
    */
   async addNewUser(body) {
+    const error = new APIError("Error adding record.");
+    if(body === undefined || body.email === undefined) return error;
+    try{
     const newUser = new this({
       ...body,
       password: bcrypt.hashSync(body.password, body.passwordSalt),
     });
     return newUser.save();
+  } catch {
+      return error;
+    }
   },
   /**
    * Update an existing user using request body
@@ -135,10 +148,12 @@ UsersSchema.statics = {
    * @returns {Promise<User>} updated User object
    */
   async updateExistingUser(id, body) {
+    const error = new APIError("Error updating record.");
+    if(id === undefined || body === undefined || body.email === undefined) return error;
     try {
       return this.findByIdAndUpdate(id, body, { runValidators: true });
-    } catch (err) {
-      return Promise.reject(err);
+    } catch {
+      return error;
     }
   },
 
@@ -150,10 +165,12 @@ UsersSchema.statics = {
    * @returns {Promise<User>} TODO
    */
   async deleteExistingUser(id) {
+    const error = new APIError("Error updating record.");
+    if (!mongoose.Types.ObjectId.isValid(id)) return error;
     try {
       return this.findByIdAndDelete(id);
-    } catch (err) {
-      return Promise.reject(err);
+    } catch {
+      return error;
     }
   },
 };

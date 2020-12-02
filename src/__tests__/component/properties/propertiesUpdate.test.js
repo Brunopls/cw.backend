@@ -18,7 +18,6 @@ describe("agentUpdatePropertyPermissions", () => {
    * to test if the current agent can delete it
    */
   let secondUser;
-  let secondMessage;
 
   beforeAll(async () => {
     user = await createUser("agent");
