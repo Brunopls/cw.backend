@@ -7,7 +7,6 @@ const {
   createUser,
 } = require("../../../helpers/integrationTestsHelper");
 
-
 // WHAT is being tested, under what CIRCUMSTANCES and what is the EXPECTED RESULT
 describe("agentDeletePropertyPermissions", () => {
   let user;
@@ -36,6 +35,6 @@ describe("agentDeletePropertyPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(204);
+    expect(result.statusCode).toEqual(204);
   });
 });

@@ -136,7 +136,7 @@ UsersSchema.statics = {
    */
   async updateExistingUser(id, body) {
     try {
-      return this.findByIdAndUpdate(id, body);
+      return this.findByIdAndUpdate(id, body, { runValidators: true });
     } catch (err) {
       return Promise.reject(err);
     }

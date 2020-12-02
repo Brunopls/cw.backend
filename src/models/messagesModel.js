@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const APIError = require("../helpers/apiErrorHandling");
+const status = require("http-status");
 
 const { Schema } = mongoose;
 
@@ -14,11 +16,11 @@ const { Schema } = mongoose;
 const MessagesSchema = new Schema({
   text: {
     type: String,
-    required: "Message text is required.",
+    required: true,
   },
   inquirerEmail: {
     type: String,
-    required: "Email is required.",
+    required: true,
   },
   dateSent: {
     type: Date,
@@ -27,10 +29,12 @@ const MessagesSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: "Users",
+    required: true,
   },
   property: {
     type: Schema.Types.ObjectId,
     ref: "Properties",
+    required: true,
   },
   archived: {
     type: Boolean,
@@ -46,18 +50,21 @@ MessagesSchema.statics = {
    * @returns {Promise<Messages[]>} Array of Messages objects
    */
   async getAll(user, limit = 5, page = 1) {
+    const error = new APIError("Error retrieving all records.");
+    if (!mongoose.Types.ObjectId.isValid(user._id)) return error;
     try {
-      return this.find({ user })
+      return this.find({ user: user._id })
         .limit(limit * 1)
         .skip((page - 1) * limit)
         .exec()
         .then((messages) => {
           return messages;
         });
-    } catch (err) {
-      return Promise.reject(err);
+    } catch {
+      return error;
     }
   },
+
   /**
    * Get a single message
    * @memberof Messages
@@ -66,16 +73,20 @@ MessagesSchema.statics = {
    * @returns {Messages} Messages objects
    */
   async getByID(id) {
+    const error = new APIError("Error retrieving record.");
+    if (!mongoose.Types.ObjectId.isValid(id)) return error;
+
     try {
       return this.findById(id)
         .exec()
         .then((message) => {
           return message;
         });
-    } catch (err) {
-      return Promise.reject(err);
+    } catch {
+      return error;
     }
   },
+
   /**
    * Send a message to an estate agent
    * @memberof Messages
@@ -83,16 +94,16 @@ MessagesSchema.statics = {
    * @returns {*} Array of Messages objects
    */
   async sendMessage(body) {
+    const error = new APIError("Error sending message.");
     let statusMessage;
     try {
       let newMessage = new this({ ...body, dateSent: Date.now() });
       newMessage = await newMessage.save();
       statusMessage = "Inquiry sent successfully!";
       return { newMessage, statusMessage };
-    } catch (err) {
-      statusMessage = "Error sending message.";
+    } catch {
+      return error;
     }
-    return statusMessage;
   },
   /**
    * Deletes a message from the database
@@ -101,23 +112,29 @@ MessagesSchema.statics = {
    * @returns {*} A status message
    */
   async deleteExistingMessage(id) {
+    const error = new APIError("Error deleting record.");
+    if (!mongoose.Types.ObjectId.isValid(id)) return error;
     try {
-      return this.findByIdAndDelete(id);
-    } catch (err) {
-      return Promise.reject(err);
+      return await this.findByIdAndDelete(id);
+    } catch {
+      return error;
     }
   },
+
   /**
    * Deletes a message from the database
    * @memberof Messages
    * @async
-   * @returns {*} A status message
+   * @returns {*} Error or Message object
    */
   async updateExistingMessage(id, body) {
+    const error = new APIError("Error updating record.");
+    if (!mongoose.Types.ObjectId.isValid(id)) return error;
+    if(body === undefined || body.text === undefined || body.inquirerEmail === undefined) return error;
     try {
-      return this.findByIdAndUpdate(id, body);
-    } catch (err) {
-      return Promise.reject(err);
+      return await this.findByIdAndUpdate(id, body);
+    } catch {
+      return error;
     }
   },
 };

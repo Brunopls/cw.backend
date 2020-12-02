@@ -1,0 +1,5 @@
+#Ignore the coverage folder
+coverage
+
+#Ignore all HTML files in the project
+*.html

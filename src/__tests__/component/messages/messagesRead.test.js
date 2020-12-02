@@ -68,7 +68,7 @@ describe("agentReadPermissions", () => {
 
   test("agentReadOwnTrue", async () => {
     let result;
-    
+
     await request(app.callback())
       .get(`/api/messages/${message.newMessage._id}`)
       .set("Authorization", `Bearer ${user.token}`)
@@ -79,8 +79,8 @@ describe("agentReadPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(200);
-    });
+    expect(result.statusCode).toEqual(200);
+  });
 
   test("agentReadAllFalse", async () => {
     let result;
@@ -95,8 +95,8 @@ describe("agentReadPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(403);
-    });
+    expect(result.statusCode).toEqual(403);
+  });
 });
 
 describe("generalPublicReadPermissions", () => {
@@ -123,9 +123,9 @@ describe("generalPublicReadPermissions", () => {
       .catch((err) => {
         console.log(err);
       });
-      
-      expect(result.statusCode).toEqual(401);
-    });
+
+    expect(result.statusCode).toEqual(401);
+  });
 
   test("generalPublicReadOneFalse", async () => {
     let result;
@@ -139,6 +139,6 @@ describe("generalPublicReadPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(401);
+    expect(result.statusCode).toEqual(401);
   });
 });

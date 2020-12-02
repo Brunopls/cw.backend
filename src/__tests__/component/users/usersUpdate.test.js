@@ -43,7 +43,7 @@ describe("agentUpdatePermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(204);
+    expect(result.statusCode).toEqual(204);
   });
 
   test("agentUpdateAnyFalse", async () => {
@@ -61,8 +61,8 @@ describe("agentUpdatePermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(403);
-    });
+    expect(result.statusCode).toEqual(403);
+  });
 });
 
 describe("adminUpdatePermissions", () => {
@@ -105,8 +105,8 @@ describe("adminUpdatePermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(204);
-    });
+    expect(result.statusCode).toEqual(204);
+  });
 });
 
 describe("generalPublicUpdatePermissions", () => {
@@ -137,6 +137,6 @@ describe("generalPublicUpdatePermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(401);
-    });
+    expect(result.statusCode).toEqual(401);
+  });
 });

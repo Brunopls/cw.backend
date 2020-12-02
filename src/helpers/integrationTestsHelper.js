@@ -31,38 +31,62 @@ const validMessageObject = async (user, property) => {
   };
 };
 
+const validPropertyObject = async (user, category, features) => {
+  return {
+    title: faker.lorem.sentence(),
+    description: faker.lorem.paragraph(),
+    location: faker.address.city(),
+    askingPrice: faker.commerce.price(),
+    user: user._id,
+    propertyCategory: category._id,
+    propertyFeatures: features._id,
+  };
+};
+
 const validPropertyFeatureObject = async () => {
   return {
-    title:faker.lorem.word()
-  }
-}
+    title: faker.lorem.word(),
+  };
+};
 
 const validPropertyCategoryObject = async () => {
   return {
-    title:faker.lorem.word()
-  }
-}
+    title: faker.lorem.word(),
+  };
+};
 
-const validPropertyObject = async (user, category, features) => {
+const invalidMessageObject = async () => {
   return {
-    title:faker.lorem.sentence(),
-    description:faker.lorem.paragraph(),
-    location:faker.address.city(),
-    askingPrice:faker.commerce.price(),
-    user: user._id,
-    propertyCategory:category._id,
-    propertyFeatures:features._id
-  }
-}
+    text: faker.lorem.paragraph(),
+    // inquirerEmail: faker.internet.email(),
+  };
+};
+
+const invalidPropertyObject = async () => {
+  return {
+    description: faker.lorem.paragraph(),
+    askingPrice: faker.commerce.price(),
+  };
+};
 
 const getValidPropertyObject = async (user) => {
   const featureObject = await validPropertyFeatureObject();
   const categoryObject = await validPropertyCategoryObject();
-  return await validPropertyObject(user, categoryObject, featureObject)
-}
+  return await validPropertyObject(user, categoryObject, featureObject);
+};
 
 const getValidMessageObject = async (user, property) => {
   const object = await validMessageObject(user, property);
+  return object;
+};
+
+const getInvalidMessageObject = async () => {
+  const object = await invalidMessageObject();
+  return object;
+};
+
+const getInvalidPropertyObject = async () => {
+  const object = await invalidPropertyObject();
   return object;
 };
 
@@ -75,6 +99,9 @@ const createUser = async (role) => {
     .auth(user.email, userToCreate.password)
     .then((res) => {
       user.token = res.body.token;
+    })
+    .catch((err) => {
+      console.log(err);
     });
 
   return user;
@@ -97,5 +124,7 @@ module.exports = {
   getValidPropertyObject,
   createUser,
   createMessage,
-  createProperty
+  createProperty,
+  getInvalidMessageObject,
+  getInvalidPropertyObject
 };

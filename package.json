@@ -6,14 +6,11 @@
   "scripts": {
     "env:dev": "./node_modules/.bin/cross-env DB_DATABASE=wesellhousesDB",
     "start": "./node_modules/.bin/cross-env DB_DATABASE=wesellhousesDB && nodemon index.js",
-    
     "lint": "node_modules/.bin/eslint .",
     "lintfix": "node_modules/.bin/eslint . --fix",
     "prettier": "npx prettier --write .",
-    
     "jsdoc": "./node_modules/jsdoc/jsdoc.js -c jsdoc.conf.json",
     "apidocs": "nodemon docs.js",
-
     "test": "./node_modules/.bin/cross-env DB_DATABASE=test-wesellhousesDB jest --detectOpenHandles --forceExit --testTimeout=10000",
     "testOne": "node_modules/.bin/jest -t ",
     "testPrep": "mongo test-wesellhousesDB --eval \"db.dropDatabase()\" && mongodump --archive --db=wesellhousesDB | mongorestore --archive  --nsFrom='wesellhousesDB.*' --nsTo='test-wesellhousesDB.*'",
@@ -30,6 +27,7 @@
     "accesscontrol": "^2.2.1",
     "bcrypt": "^5.0.0",
     "faker": "^5.1.0",
+    "http-status": "^1.5.0",
     "jsonschema": "^1.4.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.0",

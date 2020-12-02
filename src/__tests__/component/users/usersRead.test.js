@@ -40,8 +40,8 @@ describe("agentReadPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(403);
-    });
+    expect(result.statusCode).toEqual(403);
+  });
 
   test("agentReadOwnTrue", async () => {
     let result;
@@ -56,8 +56,8 @@ describe("agentReadPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(200);
-    });
+    expect(result.statusCode).toEqual(200);
+  });
 
   test("agentReadOneFalse", async () => {
     let result;
@@ -74,8 +74,8 @@ describe("agentReadPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(403);
-    });
+    expect(result.statusCode).toEqual(403);
+  });
 });
 
 describe("adminReadPermissions", () => {
@@ -113,8 +113,8 @@ describe("adminReadPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(200);
-    });
+    expect(result.statusCode).toEqual(200);
+  });
 
   test("adminReadOneTrue", async () => {
     let result;
@@ -131,8 +131,8 @@ describe("adminReadPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(200);
-    });
+    expect(result.statusCode).toEqual(200);
+  });
 });
 
 describe("generalPublicReadPermissions", () => {
@@ -165,8 +165,8 @@ describe("generalPublicReadPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(401);
-    });
+    expect(result.statusCode).toEqual(401);
+  });
 
   test("generalPublicReadOneFalse", async () => {
     let result;
@@ -180,6 +180,6 @@ describe("generalPublicReadPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(401);
-    });
+    expect(result.statusCode).toEqual(401);
+  });
 });
