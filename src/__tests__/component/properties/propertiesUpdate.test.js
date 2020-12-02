@@ -8,16 +8,15 @@ const {
   createUser,
 } = require("../../../helpers/integrationTestsHelper");
 
-
 // WHAT is being tested, under what CIRCUMSTANCES and what is the EXPECTED RESULT
 describe("agentUpdatePropertyPermissions", () => {
   let user;
   let property;
   let updatedProperty;
-  /* 
-  * Creating some other agent's property 
-  * to test if the current agent can delete it 
-  */
+  /*
+   * Creating some other agent's property
+   * to test if the current agent can delete it
+   */
   let secondUser;
   let secondMessage;
 
@@ -39,7 +38,7 @@ describe("agentUpdatePropertyPermissions", () => {
 
   test("agentUpdateAnyPropertyFalse", async () => {
     let result;
-    
+
     await request(app.callback())
       .put(`/api/properties/${secondProperty._id}`)
       .set("Authorization", `Bearer ${user.token}`)
@@ -51,8 +50,8 @@ describe("agentUpdatePropertyPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(403);
-    });
+    expect(result.statusCode).toEqual(403);
+  });
 
   test("agentUpdateOwnPropertyTrue", async () => {
     let result;
@@ -68,6 +67,6 @@ describe("agentUpdatePropertyPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(204);
-    });
+    expect(result.statusCode).toEqual(204);
+  });
 });

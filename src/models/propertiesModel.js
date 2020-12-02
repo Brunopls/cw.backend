@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const APIError = require("../helpers/apiErrorHandling");
 const { Schema } = mongoose;
 
 /**
@@ -68,6 +68,8 @@ PropertiesSchema.statics = {
    * @returns {Promise<Property>} Property object
    */
   async getByID(id) {
+    const error = new APIError("Error retrieving record.");
+    if (!mongoose.Types.ObjectId.isValid(id)) return error;
     try {
       return this.findById(id)
         .exec()
@@ -75,7 +77,7 @@ PropertiesSchema.statics = {
           return property;
         });
     } catch (err) {
-      return Promise.reject(err);
+      return error;
     }
   },
 
@@ -86,6 +88,7 @@ PropertiesSchema.statics = {
    * @returns {Promise<Property[]>} Array of Property objects
    */
   async getAll(limit = 5, page = 1) {
+    const error = new APIError("Error retrieving all records.");
     try {
       return this.find({})
         .limit(limit * 1)
@@ -95,7 +98,7 @@ PropertiesSchema.statics = {
           return properties;
         });
     } catch (err) {
-      return Promise.reject(err);
+      return error;
     }
   },
   /**
@@ -106,8 +109,13 @@ PropertiesSchema.statics = {
    * @returns {Property} new Property object
    */
   async addNewProperty(body) {
-    const newProperty = new this({ ...body });
-    return newProperty.save();
+    const error = new APIError("Error creating property.");
+    try {
+      const newProperty = new this({ ...body });
+      return await newProperty.save();
+    } catch {
+      return error;
+    }
   },
   /**
    * Update an existing property using request body
@@ -117,11 +125,14 @@ PropertiesSchema.statics = {
    * @param {Integer} id ID of the property to be updated
    * @returns {Object} updated Properties object
    */
-  async updateExistingProperties(id, body) {
+  async updateExistingProperty(id, body) {
+    const error = new APIError("Error updating record.");
+    if (!mongoose.Types.ObjectId.isValid(id)) return error;
+    if(body === undefined || body.title === undefined || body.description === undefined || body.location === undefined) return error;
     try {
-      return this.findByIdAndUpdate(id, body);
-    } catch (err) {
-      return Promise.reject(err);
+      return this.findByIdAndUpdate(id, body, { runValidators: true });
+    } catch {
+      return error;
     }
   },
   /**
@@ -132,10 +143,12 @@ PropertiesSchema.statics = {
    * @returns {Boolean} TODO
    */
   async deleteExistingProperty(id) {
+    const error = new APIError("Error deleting record.");
+    if (!mongoose.Types.ObjectId.isValid(id)) return error;
     try {
       return this.findByIdAndDelete(id);
-    } catch (err) {
-      return Promise.reject(err);
+    } catch {
+      return error;
     }
   },
 };

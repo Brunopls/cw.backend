@@ -59,7 +59,7 @@ describe("generalPublicCreate", () => {
     });
     // Populates a variable with a valid object
     newUser = await validUserObject();
-    
+
     await request(app.callback())
       .post("/api/users")
       .send(newUser)
@@ -71,8 +71,8 @@ describe("generalPublicCreate", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(201);
-    });
+    expect(result.statusCode).toEqual(201);
+  });
 
   test("generalPublicCreateInvalidUserFalse", async () => {
     let result;
@@ -89,6 +89,6 @@ describe("generalPublicCreate", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(400);
-    });
+    expect(result.statusCode).toEqual(400);
+  });
 });

@@ -93,7 +93,7 @@ async function updateProperty(ctx, next) {
 
   const { body } = ctx.request;
 
-  const result = await Properties.updateExistingProperties(id, body);
+  const result = await Properties.updateExistingProperty(id, body);
 
   if (result) {
     ctx.status = 204;

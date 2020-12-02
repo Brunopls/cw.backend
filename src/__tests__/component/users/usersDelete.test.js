@@ -72,8 +72,8 @@ describe("adminDeletePermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(204);
-    });
+    expect(result.statusCode).toEqual(204);
+  });
 });
 
 describe("agentDeletePermissions", () => {
@@ -110,8 +110,8 @@ describe("agentDeletePermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(204);
-    });
+    expect(result.statusCode).toEqual(204);
+  });
 });
 
 describe("generalPublicDeletePermissions", () => {
@@ -143,6 +143,6 @@ describe("generalPublicDeletePermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(401);
-    });
+    expect(result.statusCode).toEqual(401);
+  });
 });

@@ -7,7 +7,6 @@ const {
   createUser,
 } = require("../../../helpers/integrationTestsHelper");
 
-
 // WHAT is being tested, under what CIRCUMSTANCES and what is the EXPECTED RESULT
 describe("generalPublicReadPermissions", () => {
   let user;
@@ -34,9 +33,9 @@ describe("generalPublicReadPermissions", () => {
       .catch((err) => {
         console.log(err);
       });
-      
-      expect(result.statusCode).toEqual(200);
-    });
+
+    expect(result.statusCode).toEqual(200);
+  });
 
   test("generalPublicReadOneTrue", async () => {
     let result;
@@ -50,6 +49,6 @@ describe("generalPublicReadPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(200);
+    expect(result.statusCode).toEqual(200);
   });
 });

@@ -29,8 +29,7 @@ describe("agentDeletePermissions", () => {
   });
 
   test("agentDeleteOwnTrue", async () => {
-    let result; 
-
+    let result;
     await request(app.callback())
       .delete(`/api/messages/${message.newMessage._id}`)
       .set("Authorization", `Bearer ${user.token}`)
@@ -41,8 +40,8 @@ describe("agentDeletePermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(204);
-    });
+    expect(result.statusCode).toEqual(204);
+  });
 
   test("agentDeleteOtherFalse", async () => {
     let result;
@@ -57,6 +56,6 @@ describe("agentDeletePermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(403);
+    expect(result.statusCode).toEqual(403);
   });
 });

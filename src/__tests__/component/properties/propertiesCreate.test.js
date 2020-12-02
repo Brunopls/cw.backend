@@ -3,10 +3,9 @@ const app = require("../../../../app");
 const Users = require("../../../models/usersModel");
 const Properties = require("../../../models/propertiesModel");
 const {
-    getValidPropertyObject,
-    createUser,
+  getValidPropertyObject,
+  createUser,
 } = require("../../../helpers/integrationTestsHelper");
-
 
 // WHAT is being tested, under what CIRCUMSTANCES and what is the EXPECTED RESULT
 describe("agentCreatePropertyPermissions", () => {
@@ -24,8 +23,8 @@ describe("agentCreatePropertyPermissions", () => {
   });
 
   test("agentCreateOwnPropertyTrue", async () => {
-    let result; 
-    
+    let result;
+
     await request(app.callback())
       .post(`/api/properties/`)
       .set("Authorization", `Bearer ${user.token}`)
@@ -37,6 +36,6 @@ describe("agentCreatePropertyPermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(201);
-    });
+    expect(result.statusCode).toEqual(201);
+  });
 });
