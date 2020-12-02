@@ -6,8 +6,8 @@ const Messages = require("../models/messagesModel");
 const Properties = require("../models/propertiesModel");
 const app = require("../../app");
 
-const getMockRole = async function (title) {
-  const test = await Roles.getOneByTitle(title);
+const getMockRole = async function (role) {
+  const test = await Roles.getOneByTitle(role);
   return test;
 };
 
@@ -58,7 +58,6 @@ const validPropertyCategoryObject = async () => {
 const invalidMessageObject = async () => {
   return {
     text: faker.lorem.paragraph(),
-    // inquirerEmail: faker.internet.email(),
   };
 };
 
@@ -66,6 +65,14 @@ const invalidPropertyObject = async () => {
   return {
     description: faker.lorem.paragraph(),
     askingPrice: faker.commerce.price(),
+  };
+};
+
+const invalidUserObject = async () => {
+  return {
+    password: "passw",
+    passwordSalt: 10,
+    fullName: faker.name.findName(),
   };
 };
 
@@ -90,8 +97,18 @@ const getInvalidPropertyObject = async () => {
   return object;
 };
 
+const getValidUserObject = async (role) => {
+  const object = await validUserObject(role);
+  return object;
+};
+
+const getInvalidUserObject = async () => {
+  const object = await invalidUserObject();
+  return object;
+};
+
 const createUser = async (role) => {
-  const userToCreate = await validUserObject(role);
+  const userToCreate = await getValidUserObject(role);
   const user = await Users.addNewUser(userToCreate);
 
   await request(app.callback())
@@ -120,6 +137,9 @@ const createProperty = async (user) => {
 };
 
 module.exports = {
+  getMockRole,
+  getValidUserObject,
+  getInvalidUserObject,
   getValidMessageObject,
   getValidPropertyObject,
   createUser,
