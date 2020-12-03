@@ -24,6 +24,8 @@ describe("messageUpdateUnitTests", () => {
     afterAll(async () => {
       await Users.deleteExistingUser(user._id);
       await Messages.deleteExistingMessage(existingMessage.newMessage._id);
+      await Users.db.connection.close();
+      await Messages.db.connection.close();
     });
 
     test("messageUpdateValidMessageObjectTrue", async () => {

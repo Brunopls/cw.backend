@@ -3,13 +3,19 @@
 const Koa = require("koa");
 const cors = require("@koa/cors");
 const passport = require("koa-passport");
+const morgan = require('morgan');
+const fs = require('fs')
+
+const app = new Koa();
+
+const accessLogStream = fs.createWriteStream(__dirname + '/access.log', { flags: 'a' })
+app.use(morgan('combined', { stream: accessLogStream }))
 
 const hostname = "photo-shrink-3000.codio-box.uk";
 const options = {
   origin: `https://${hostname}`,
 };
 
-const app = new Koa();
 const mongoose = require("mongoose");
 const info = require("./config");
 console.log(`${info.config.DB_HOST}${info.config.DB_DATABASE}`)

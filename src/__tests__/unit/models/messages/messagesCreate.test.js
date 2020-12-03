@@ -23,6 +23,10 @@ describe("messageCreateUnitTests", () => {
     });
 
     test("messageCreateValidMessageObjectTrue", async () => {
+        afterEach(async () => {
+          await Messages.deleteExistingMessage(result.newMessage._id);
+        })
+
         let result;
     
         result = await Messages.sendMessage(validMessageObject);

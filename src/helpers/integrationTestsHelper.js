@@ -6,8 +6,8 @@ const Messages = require("../models/messagesModel");
 const Properties = require("../models/propertiesModel");
 const app = require("../../app");
 
-const getMockRole = async function (role) {
-  const test = await Roles.getOneByTitle(role);
+const getMockRole = async function (title) {
+  const test = await Roles.getOneByTitle(title);
   return test;
 };
 
@@ -108,6 +108,7 @@ const getInvalidUserObject = async () => {
 };
 
 const createUser = async (role) => {
+  try {
   const userToCreate = await getValidUserObject(role);
   const user = await Users.addNewUser(userToCreate);
 
@@ -122,6 +123,10 @@ const createUser = async (role) => {
     });
 
   return user;
+  } catch (err) {
+    console.log(err);
+    return {}
+  }
 };
 
 const createMessage = async (user, property) => {

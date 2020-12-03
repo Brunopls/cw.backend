@@ -6,7 +6,7 @@ const {
 } = require("../../../../helpers/integrationTestsHelper");
 const APIError = require("../../../../helpers/apiErrorHandling");
 
-describe("UsersCreateUnitTests", () => {
+describe("usersCreateUnitTests", () => {
     let user;
     let validUserObject;
     let invalidUserObject;
@@ -21,19 +21,20 @@ describe("UsersCreateUnitTests", () => {
       await Users.deleteExistingUser(user._id);
     });
 
-    test("UserCreateValidTrue", async () => {
+    test("userCreateValidTrue", async () => {
         let result;
-    
+
         result = await Users.addNewUser(validUserObject);
-    
+        if(!result instanceof APIError) await Users.deleteExistingUser(result._id);
+
         expect(result instanceof APIError).toEqual(false);
       });
     
-      test("UserCreateInvalidFalse", async () => {
+      test("userCreateInvalidFalse", async () => {
         let result;
     
         result = await Users.addNewUser(invalidUserObject);
-    
+        
         expect(result instanceof APIError).toEqual(true);
       });
 })

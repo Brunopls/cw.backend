@@ -24,6 +24,8 @@ describe("propertyUpdateUnitTests", () => {
     afterAll(async () => {
       await Users.deleteExistingUser(user._id);
       await Properties.deleteExistingProperty(existingProperty._id);
+      await Users.db.connection.close();
+      await Properties.db.connection.close();
     });
 
     test("propertyUpdateValidPropertyObjectTrue", async () => {

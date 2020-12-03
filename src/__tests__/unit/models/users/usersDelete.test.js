@@ -17,6 +17,7 @@ describe("userDeleteUnitTests", () => {
   
     afterAll(async () => {
       await Users.deleteExistingUser(user._id);
+      if (!userToDelete === undefined) await Users.deleteExistingUser(userToDelete._id);
     });
 
     test("userDeleteValidTrue", async () => {

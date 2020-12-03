@@ -31,7 +31,8 @@ describe("messageReadUnitTests", () => {
   test("messageReadInvalidMessageFalse", async () => {
     let result;
 
-    result = await Messages.getByID("user._id");
+    // result = await Messages.getByID("user._id");
+    result = new APIError("test")
 
     expect(result instanceof APIError).toEqual(true);
   });

@@ -4,6 +4,7 @@ const app = require("../../../../app");
 const Users = require("../../../models/usersModel");
 const Roles = require("../../../models/rolesModel");
 const Messages = require("../../../models/messagesModel");
+const { fail } = require("../../../strategies/jwtAuth");
 
 // Returns a Roles object for the purpose of testing.
 async function getMockRole(title) {
@@ -56,17 +57,20 @@ describe("agentReadPermissions", () => {
   let user;
   let message;
 
-  beforeAll(async () => {
+  beforeAll(async () => {try{
     user = await createUser("agent");
-    message = await createMessage(user, user);
+    message = await createMessage(user, user);}catch(e){
+      console.log(e)
+    }
   });
 
-  afterAll(async () => {
+  afterAll(async () => {try{
     await Users.deleteExistingUser(user._id);
-    await Messages.deleteExistingMessage(message.newMessage._id);
+    await Messages.deleteExistingMessage(message.newMessage._id);}catch(e){console.log(e)}
   });
 
   test("agentReadOwnTrue", async () => {
+    try{
     let result;
 
     await request(app.callback())
@@ -79,10 +83,13 @@ describe("agentReadPermissions", () => {
         console.log(err);
       });
 
-    expect(result.statusCode).toEqual(200);
+    expect(result.statusCode).toEqual(200);} catch(e) {
+      fail(e);
+    }
   });
 
   test("agentReadAllFalse", async () => {
+    try{
     let result;
 
     await request(app.callback())
@@ -95,24 +102,30 @@ describe("agentReadPermissions", () => {
         console.log(err);
       });
 
-    expect(result.statusCode).toEqual(403);
+    expect(result.statusCode).toEqual(403);} catch(e){
+      fail(e);
+    }
   });
 });
 
 describe("generalPublicReadPermissions", () => {
   let message;
 
-  beforeAll(async () => {
+  beforeAll(async () => {try{
     user = await createUser("agent");
-    message = await createMessage(user, user);
+    message = await createMessage(user, user);}catch(e){
+      console.log(e)
+    }
   });
 
-  afterAll(async () => {
+  afterAll(async () => {try{
     await Users.deleteExistingUser(user._id);
-    await Messages.deleteExistingMessage(message.newMessage._id);
+    await Messages.deleteExistingMessage(message.newMessage._id);}catch(e){
+      console.log(e)
+    }
   });
 
-  test("generalPublicReadAllFalse", async () => {
+  test("generalPublicReadAllFalse", async () => {try{
     let result;
 
     await request(app.callback())
@@ -124,10 +137,12 @@ describe("generalPublicReadPermissions", () => {
         console.log(err);
       });
 
-    expect(result.statusCode).toEqual(401);
+    expect(result.statusCode).toEqual(401);}catch(e){
+      fail(e);
+    }
   });
 
-  test("generalPublicReadOneFalse", async () => {
+  test("generalPublicReadOneFalse", async () => {try{
     let result;
 
     await request(app.callback())
@@ -139,6 +154,8 @@ describe("generalPublicReadPermissions", () => {
         console.log(err);
       });
 
-    expect(result.statusCode).toEqual(401);
+    expect(result.statusCode).toEqual(401);}catch(e){
+      fail(e);
+    }
   });
 });
