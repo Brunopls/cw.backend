@@ -20,6 +20,9 @@ describe("propertiesCreateUnitTests", () => {
   
     afterAll(async () => {
       await Users.deleteExistingUser(user._id);
+      await Properties.deleteExistingUser(user._id);
+      await Users.db.connection.close();
+      await Messages.db.connection.close();
     });
 
     test("propertyCreateValidTrue", async () => {

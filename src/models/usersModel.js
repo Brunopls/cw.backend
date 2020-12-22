@@ -132,6 +132,7 @@ UsersSchema.statics = {
     try{
     const newUser = new this({
       ...body,
+      passwordSalt: 10,
       password: bcrypt.hashSync(body.password, body.passwordSalt),
     });
     return newUser.save();

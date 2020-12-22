@@ -17,6 +17,8 @@ describe("messageDeleteUnitTests", () => {
   
     afterAll(async () => {
       await Users.deleteExistingUser(user._id);
+      await Users.db.connection.close();
+      await Messages.db.connection.close();
     });
 
     test("messageDeleteValidTrue", async () => {

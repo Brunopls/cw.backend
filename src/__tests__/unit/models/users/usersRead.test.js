@@ -13,6 +13,7 @@ describe("usersReadUnitTests", () => {
 
   afterAll(async () => {
     await Users.deleteExistingUser(user._id);
+    await Users.db.connection.close();
   });
 
   test("userReadValidTrue", async () => {

@@ -19,10 +19,16 @@ describe("messageCreateUnitTests", () => {
     });
   
     afterAll(async () => {
+      await Users.db.connection.close();
+      await Messages.db.connection.close();
       await Users.deleteExistingUser(user._id);
     });
 
     test("messageCreateValidMessageObjectTrue", async () => {
+        afterEach(async () => {
+          await Messages.deleteExistingMessage(result.newMessage._id);
+        })
+
         let result;
     
         result = await Messages.sendMessage(validMessageObject);

@@ -4,12 +4,14 @@ const Koa = require("koa");
 const cors = require("@koa/cors");
 const passport = require("koa-passport");
 
-const hostname = "photo-shrink-3000.codio-box.uk";
+const app = new Koa();
+
+const hostname = "pyramid-snow-3000.codio-box.uk";
 const options = {
   origin: `https://${hostname}`,
+  allowMethods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS', 'PATCH'],
 };
 
-const app = new Koa();
 const mongoose = require("mongoose");
 const info = require("./config");
 console.log(`${info.config.DB_HOST}${info.config.DB_DATABASE}`)
@@ -34,10 +36,11 @@ const userRoutes = require("./src/routes/usersRoutes");
 const propertiesRoutes = require("./src/routes/propertiesRoutes");
 const messagesRoutes = require("./src/routes/messagesRoutes");
 
-app.use(userRoutes.routes());
+app.use(cors(options));
+app.use(userRoutes.routes()); 
 app.use(propertiesRoutes.routes());
 app.use(messagesRoutes.routes());
-app.use(cors(options));
 app.listen(info.config.port, () =>
-  console.log(`Listening on port ${info.config.port}.`)
+  {console.log(`Listening on port ${info.config.port}.`)
+  console.log(`CORS Origin: ${options.origin}`)}
 );

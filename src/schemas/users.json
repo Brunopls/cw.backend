@@ -19,11 +19,98 @@
         "password": {
           "description": "Password",
           "type": "string",
-          "minLength": 8
+          "minLength": 6
         }
       },
-
-      "required": ["email", "password", "fullName"]
+      "required": [
+        "email",
+        "password",
+        "fullName"
+      ]
+    },
+    "userList": {
+      "$id": "#userList",
+      "title": "User List",
+      "description": "List of all users which is only seen by admins.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/userItem"
+      }
+    },
+    "userItem": {
+      "$id": "#userItem",
+      "title": "User Item",
+      "description": "Data record that can be seen by admins & authenticated users.",
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "description": "Full Name",
+          "type": "string"
+        },
+        "role": {
+          "description": "User's role",
+          "type": "string"
+        },
+        "email": {
+          "description": "Unique email address",
+          "type": "string"
+        }
+      }
+    },
+    "userUpdate": {
+      "$id": "#userUpdate",
+      "title": "User Update",
+      "description": "Data fields which can be updated",
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "description": "Full Name",
+          "type": "string"
+        },
+        "password": {
+          "description": "Password",
+          "type": "string",
+          "minLength": 6
+        }
+      },
+      "additionalProperties": false
+    },
+    "userUpdated": {
+      "$id": "#userUpdated",
+      "title": "User Updated",
+      "description": "Confirms a successful record update/creation",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "description": "ID of the updated record",
+          "type": "integer"
+        },
+        "updated": {
+          "description": "Boolean indicator of success",
+          "type": "boolean"
+        },
+        "link": {
+          "description": "Path to retrieve record",
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "userDeleted": {
+      "$id": "#userDeleted",
+      "title": "User Deleted",
+      "description": "Confirmation of deletion",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "description": "ID of the deleted record",
+          "type": "string"
+        },
+        "deleted": {
+          "description": "Boolean indicator of success",
+          "type": "boolean"
+        }
+      }
     }
   }
 }

@@ -7,32 +7,33 @@ const {
   createProperty,
   createUser,
 } = require("../../../helpers/integrationTestsHelper");
+const { fail } = require("../../../strategies/jwtAuth");
 
 // WHAT is being tested, under what CIRCUMSTANCES and what is the EXPECTED RESULT
 describe("agentUpdatePropertyPermissions", () => {
   let user;
   let property;
   let updatedProperty;
+  let secondUser;
   /*
    * Creating some other agent's property
    * to test if the current agent can delete it
    */
-  let secondUser;
 
-  beforeAll(async () => {
+  beforeAll(async () => {try{
     user = await createUser("agent");
     property = await createProperty(user);
     updatedProperty = await getValidPropertyObject(user);
 
     secondUser = await createUser("agent");
-    secondProperty = await createProperty(secondUser, secondUser);
+    secondProperty = await createProperty(secondUser, secondUser);}catch(e){console.log(e)}
   });
 
-  afterAll(async () => {
+  afterAll(async () => {try{
     await Users.deleteExistingUser(user._id);
     await Properties.deleteExistingProperty(property._id);
     await Users.deleteExistingUser(secondUser._id);
-    await Properties.deleteExistingProperty(secondProperty._id);
+    await Properties.deleteExistingProperty(secondProperty._id);}catch(e){console.log(e)}
   });
 
   test("agentUpdateAnyPropertyFalse", async () => {

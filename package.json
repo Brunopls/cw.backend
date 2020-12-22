@@ -11,10 +11,10 @@
     "prettier": "npx prettier --write .",
     "jsdoc": "./node_modules/jsdoc/jsdoc.js -c jsdoc.conf.json",
     "apidocs": "nodemon docs.js",
-    "test": "./node_modules/.bin/cross-env DB_DATABASE=test-wesellhousesDB jest --runInBand --forceExit --testTimeout=10000",
+    "test": "npm run testPrep && ./node_modules/.bin/cross-env DB_DATABASE=test-wesellhousesDB jest --runInBand --forceExit --testTimeout=10000",
     "testOne": "node_modules/.bin/jest -t ",
     "testPrep": "mongo test-wesellhousesDB --eval \"db.dropDatabase()\" && mongodump --archive --db=wesellhousesDB | mongorestore --archive  --nsFrom='wesellhousesDB.*' --nsTo='test-wesellhousesDB.*'",
-    "testWatch": "cross-env DB_DATABASE=test-wesellhousesDB jest --watch "
+    "testWatch": "cross-env DB_DATABASE=test-wesellhousesDB jest --watch"
   },
   "repository": {
     "type": "git",
@@ -37,12 +37,14 @@
     "koa-router": "^9.4.0",
     "koa-static": "^5.0.0",
     "mongoose": "^5.10.7",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "passport-http": "^0.3.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "role-acl": "^4.5.4",
-    "supertest": "^6.0.1"
+    "supertest": "^6.0.1",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "cross-env": "^7.0.2",

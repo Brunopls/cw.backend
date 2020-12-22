@@ -17,6 +17,8 @@ describe("propertyDeleteUnitTests", () => {
   
     afterAll(async () => {
       await Users.deleteExistingUser(user._id);
+      await Users.db.connection.close();
+      await Properties.db.connection.close();
     });
 
     test("propertyDeleteValidTrue", async () => {

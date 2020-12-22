@@ -30,11 +30,10 @@ describe("agentUpdatePermissions", () => {
   test("agentUpdateOwnTrue", async () => {
     let result;
     const newName = faker.name.findName();
-    user.fullName = newName;
 
     await request(app.callback())
       .put(`/api/users/${user._id}`)
-      .send(user)
+      .send({fullName:faker.name.findName()})
       .set("Authorization", `Bearer ${token}`)
       .then((response) => {
         result = response;
@@ -91,12 +90,10 @@ describe("adminUpdatePermissions", () => {
     let result;
     role = await Roles.getOneByTitle("agent");
     user = await Users.getOneByRole(role._id);
-    const newName = faker.name.findName();
-    user.fullName = newName;
 
     await request(app.callback())
       .put(`/api/users/${user._id}`)
-      .send(user)
+      .send({fullName:faker.name.findName()})
       .set("Authorization", `Bearer ${token}`)
       .then((response) => {
         result = response;

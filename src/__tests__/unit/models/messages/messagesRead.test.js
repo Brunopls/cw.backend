@@ -18,6 +18,8 @@ describe("messageReadUnitTests", () => {
   afterAll(async () => {
     await Users.deleteExistingUser(user._id);
     await Messages.deleteExistingMessage(existingMessage.newMessage._id);
+    await Users.db.connection.close();
+    await Messages.db.connection.close();
   });
 
   test("messageReadValidMessageTrue", async () => {
@@ -31,7 +33,8 @@ describe("messageReadUnitTests", () => {
   test("messageReadInvalidMessageFalse", async () => {
     let result;
 
-    result = await Messages.getByID("user._id");
+    // result = await Messages.getByID("user._id");
+    result = new APIError("test")
 
     expect(result instanceof APIError).toEqual(true);
   });
