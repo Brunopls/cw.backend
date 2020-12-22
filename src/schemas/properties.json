@@ -15,17 +15,174 @@
           "description": "Property Description",
           "type": "string"
         },
+        "underOffer": {
+          "description": "Whether a property is under offer",
+          "type" : "boolean"
+        },
+        "visible": {
+          "description": "Whether a property is visible",
+          "type" : "boolean"
+        },
+        "highPriority": {
+          "description": "Whether a property takes precedence over others in list ordering",
+          "type" : "boolean"
+        },
+        "askingPrice": {
+          "description": "Property's asking price",
+          "type" : "integer"
+        },
         "location": {
           "description": "Property Location",
           "type": "string"
         },
+        "user": {
+          "description": "Property Advertiser ID",
+          "type" : "string"
+        },
+        "propertyFeatures": {
+          "description": "Property Features IDs",
+          "type" : "array"
+        },
         "propertyCategory": {
-          "description": "Property Categry",
-          "type": "integer"
+          "description": "Property Category ID",
+          "type": "string"
         }
       },
 
-      "required": ["title", "description", "location", "propertyCategory"]
+      "required": ["title", "description", "location", "propertyCategory", "user"]
+    },
+
+    "propertyList": {
+      "$id": "#propertyList",
+      "title": "Property List",
+      "description": "List of all properties which can be seen by anyone",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/propertyItem"
+      }
+    },
+
+    "propertyItem": {
+      "$id": "#propertyItem",
+      "title": "Property Item",
+      "description": "Data record that can be seen by anyone.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Property Title",
+          "type": "string"
+        },
+        "description": {
+          "description": "Property Description",
+          "type": "string"
+        },
+        "underOffer": {
+          "description": "Whether a property is under offer",
+          "type" : "boolean"
+        },
+        "highPriority": {
+          "description": "Whether a property takes precedence over others in list ordering",
+          "type" : "boolean"
+        },
+        "askingPrice": {
+          "description": "Property's asking price",
+          "type" : "integer"
+        },
+        "location": {
+          "description": "Property Location",
+          "type": "string"
+        },
+        "user": {
+          "description": "Property Advertiser ID",
+          "type" : "string"
+        },
+        "propertyFeatures": {
+          "description": "Property Features IDs",
+          "type" : "array"
+        },
+        "propertyCategory": {
+          "description": "Property Category ID",
+          "type": "string"
+        }
+      }
+    },
+
+    "propertyUpdate": {
+      "$id": "#propertyUpdate",
+      "title": "Property Update",
+      "description": "Data fields which can be updated",
+      "type": "object",
+      "properties": {
+      "title": {
+        "description": "Property Title",
+        "type": "string"
+      },
+      "description": {
+        "description": "Property Description",
+        "type": "string"
+      },
+      "underOffer": {
+        "description": "Whether a property is under offer",
+        "type" : "boolean"
+      },
+      "highPriority": {
+        "description": "Whether a property takes precedence over others in list ordering",
+        "type" : "boolean"
+      },
+      "askingPrice": {
+        "description": "Property's asking price",
+        "type" : "integer"
+      },
+      "location": {
+        "description": "Property Location",
+        "type": "string"
+      },
+      "propertyFeatures": {
+        "description": "Property Features IDs"
+      },
+      "propertyCategory": {
+        "description": "Property Category ID"
+      }
+      }, "required": ["title","description","askingPrice","location", "propertyFeatures", "propertyCategory"]
+    },
+    "propertyUpdated": {
+      "$id": "#propertyUpdated",
+      "title": "Property Updated",
+      "description": "Confirms a successful record update/creation",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "description": "ID of the updated record",
+          "type": "string"
+        },
+        "updated": {
+          "description": "Boolean indicator of success",
+          "type": "boolean"
+        },
+        "link": {
+          "description": "Path to retrieve record",
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "propertyDeleted": {
+      "$id": "#propertyDeleted",
+      "title": "Property Deleted",
+      "description": "Confirmation of deletion",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "description": "ID of the deleted record",
+          "type": "string"
+        },
+        "deleted": {
+          "description": "Boolean indicator of success",
+          "type": "boolean"
+        }
+      }
     }
+
+    
   }
 }

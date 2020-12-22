@@ -19,6 +19,8 @@ describe("messageCreateUnitTests", () => {
     });
   
     afterAll(async () => {
+      await Users.db.connection.close();
+      await Messages.db.connection.close();
       await Users.deleteExistingUser(user._id);
     });
 

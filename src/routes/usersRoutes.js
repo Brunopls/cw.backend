@@ -3,7 +3,7 @@ const Router = require("koa-router");
 const bodyParser = require("koa-bodyparser");
 const Users = require("../models/usersModel");
 const Roles = require("../models/rolesModel");
-const { validateUser } = require("../controllers/validationController");
+const { validateUser, validateUserUpdate } = require("../controllers/validationController");
 const authenticate = require("../controllers/authenticationController");
 const { generateJWT } = require("../helpers/authenticationHelper");
 const permissions = require("../permissions/userPermissions");
@@ -13,6 +13,7 @@ const router = Router({ prefix });
 
 async function createUser(ctx) {
   const { body } = ctx.request;
+  body.passwordSalt = 10;
   let result = await Users.addNewUser(body);
   if (result) {
     result = result.toJSON();
@@ -138,7 +139,7 @@ router.post("/login", authenticate, login);
 router.get("/:id", authenticate, getById);
 router.post("/", bodyParser(), validateUser, createUser);
 router.get("/", authenticate, getAll);
-router.put("/:id", bodyParser(), authenticate, updateUser);
+router.put("/:id", bodyParser(), validateUserUpdate, authenticate, updateUser);
 router.del("/:id", authenticate, deleteUser);
 
 module.exports = router;

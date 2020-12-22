@@ -19,6 +19,7 @@ describe("usersCreateUnitTests", () => {
   
     afterAll(async () => {
       await Users.deleteExistingUser(user._id);
+      await Users.db.connection.close();
     });
 
     test("userCreateValidTrue", async () => {

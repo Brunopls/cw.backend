@@ -36,7 +36,7 @@ describe("agentUpdatePropertyPermissions", () => {
     await Properties.deleteExistingProperty(secondProperty._id);}catch(e){console.log(e)}
   });
 
-  test("agentUpdateAnyPropertyFalse", async () => {try{
+  test("agentUpdateAnyPropertyFalse", async () => {
     let result;
 
     await request(app.callback())
@@ -50,12 +50,10 @@ describe("agentUpdatePropertyPermissions", () => {
         console.log(err);
       });
 
-    expect(result.statusCode).toEqual(403);}catch(e){
-      fail(e);
-    }
+    expect(result.statusCode).toEqual(403);
   });
 
-  test("agentUpdateOwnPropertyTrue", async () => {try{
+  test("agentUpdateOwnPropertyTrue", async () => {
     let result;
 
     await request(app.callback())
@@ -69,6 +67,6 @@ describe("agentUpdatePropertyPermissions", () => {
         console.log(err);
       });
 
-    expect(result.statusCode).toEqual(204);}catch(e){fail(e);}
+    expect(result.statusCode).toEqual(204);
   });
 });

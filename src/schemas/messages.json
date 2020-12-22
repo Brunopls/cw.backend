@@ -25,10 +25,99 @@
           "description": "Property ID",
           "type": "integer",
           "minLength": 8
+        },
+        "archived": {
+          "description": "Message archival",
+          "type":"boolean"
         }
       },
-
-      "required": ["text", "inquirerEmail", "user", "property"]
+      "required": [
+        "text",
+        "inquirerEmail",
+        "user",
+        "property"
+      ]
+    },
+    "messageList": {
+      "$id": "#messageList",
+      "title": "Message List",
+      "description": "List of all messages belonging to a certain user.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/userItem"
+      }
+    },
+    "messageItem": {
+      "$id": "#messageItem",
+      "title": "Message Item",
+      "description": "Data record that can be seen by authenticated users whom the message addresses.",
+      "type": "object",
+      "properties": {
+        "text": {
+          "description": "Text",
+          "type": "string"
+        },
+        "inquirerEmail": {
+          "description": "Inquirer Email",
+          "type": "string",
+          "format": "email"
+        },
+        "property": {
+          "description": "Property ID",
+          "type": "string",
+          "minLength": 8
+        }
+      }
+    },
+    "messageUpdated": {
+      "$id": "#messageUpdated",
+      "title": "Message Updated",
+      "description": "Confirms a successful record update/creation",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "description": "ID of the updated record",
+          "type": "string"
+        },
+        "updated": {
+          "description": "Boolean indicator of success",
+          "type": "boolean"
+        },
+        "link": {
+          "description": "Path to retrieve record",
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "messageUpdate": {
+      "$id": "#messageUpdate",
+      "title": "Message Update",
+      "description": "Data fields which can be updated",
+      "type": "object",
+      "properties": {
+        "archived": {
+          "description": "Message archival",
+          "type":"boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "messageDeleted": {
+      "$id": "#messageDeleted",
+      "title": "Message Deleted",
+      "description": "Confirmation of deletion",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "description": "ID of the deleted record",
+          "type": "string"
+        },
+        "deleted": {
+          "description": "Boolean indicator of success",
+          "type": "boolean"
+        }
+      }
     }
   }
 }

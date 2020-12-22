@@ -4,6 +4,8 @@ const Users = require("../models/usersModel");
 const Roles = require("../models/rolesModel");
 const Messages = require("../models/messagesModel");
 const Properties = require("../models/propertiesModel");
+const PropertiesFeatures = require("../models/propertiesFeaturesModel");
+const PropertiesCategories = require("../models/propertiesCategoriesModel");
 const app = require("../../app");
 
 const getMockRole = async function (title) {
@@ -36,7 +38,7 @@ const validPropertyObject = async (user, category, features) => {
     title: faker.lorem.sentence(),
     description: faker.lorem.paragraph(),
     location: faker.address.city(),
-    askingPrice: faker.commerce.price(),
+    askingPrice: 100000,
     user: user._id,
     propertyCategory: category._id,
     propertyFeatures: features._id,
@@ -45,13 +47,13 @@ const validPropertyObject = async (user, category, features) => {
 
 const validPropertyFeatureObject = async () => {
   return {
-    title: faker.lorem.word(),
+    title: faker.lorem.sentence(),
   };
 };
 
 const validPropertyCategoryObject = async () => {
   return {
-    title: faker.lorem.word(),
+    title: faker.lorem.words(),
   };
 };
 
@@ -77,8 +79,8 @@ const invalidUserObject = async () => {
 };
 
 const getValidPropertyObject = async (user) => {
-  const featureObject = await validPropertyFeatureObject();
-  const categoryObject = await validPropertyCategoryObject();
+  const featureObject = await createPropertyFeature();
+  const categoryObject = await createPropertyCategory();
   return await validPropertyObject(user, categoryObject, featureObject);
 };
 
@@ -86,6 +88,17 @@ const getValidMessageObject = async (user, property) => {
   const object = await validMessageObject(user, property);
   return object;
 };
+
+const getValidPropertyFeatureObject = async () => {
+  const object = await validPropertyFeatureObject();
+  return object;
+}
+
+const getValidPropertyCategoryObject = async () => {
+  const object = await validPropertyCategoryObject();
+  return object;
+}
+
 
 const getInvalidMessageObject = async () => {
   const object = await invalidMessageObject();
@@ -139,6 +152,18 @@ const createProperty = async (user) => {
   const propertyToCreate = await getValidPropertyObject(user);
   const property = await Properties.addNewProperty(propertyToCreate);
   return property;
+};
+
+const createPropertyFeature = async (user) => {
+  const propertyFeatureToCreate = await getValidPropertyFeatureObject();
+  const propertyFeature = await PropertiesFeatures.addNewPropertyFeature(propertyFeatureToCreate);
+  return propertyFeature;
+};
+
+const createPropertyCategory = async (user) => {
+  const propertyCategoryToCreate = await getValidPropertyCategoryObject();
+  const propertyFeature = await PropertiesCategories.addNewPropertyCategories(propertyCategoryToCreate);
+  return propertyFeature;
 };
 
 module.exports = {

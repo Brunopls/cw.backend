@@ -15,15 +15,18 @@ describe("agentCreatePropertyPermissions", () => {
   beforeAll(async () => {
     user = await createUser("agent");
     propertyToBeCreated = await getValidPropertyObject(user);
+    propertyToBeCreated = JSON.stringify(propertyToBeCreated);
+    
   });
 
   afterAll(async () => {
     await Users.deleteExistingUser(user._id);
-    await Properties.deleteExistingProperty(propertyToBeCreated._id);
+    // await Properties.deleteExistingProperty(propertyToBeCreated._id);
   });
 
   test("agentCreateOwnPropertyTrue", async () => {
     let result;
+    console.dir(propertyToBeCreated)
 
     await request(app.callback())
       .post(`/api/properties/`)

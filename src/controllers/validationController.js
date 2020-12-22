@@ -7,9 +7,15 @@
 const { Validator, ValidationError } = require("jsonschema");
 
 const usersSchema = require("../schemas/users.json").definitions.user;
+const usersUpdateSchema = require("../schemas/users.json").definitions.userUpdate;
+
 const messageSchema = require("../schemas/messages.json").definitions.message;
+const messageUpdateSchema = require("../schemas/messages.json").definitions.messageUpdate;
+
 const propertiesSchema = require("../schemas/properties.json").definitions
   .property;
+const propertiesUpdateSchema = require("../schemas/properties.json").definitions
+  .propertyUpdate;
 
 /**
  * Returns a Koa middleware validator for each different schema.
@@ -50,9 +56,12 @@ const KoaValidatorFactory = (schema, resource) => {
 
 /** Validates user data against its respective schema */
 exports.validateUser = KoaValidatorFactory(usersSchema, "user");
+exports.validateUserUpdate = KoaValidatorFactory(usersUpdateSchema, "userUpdate");
 
 /** Validates message data against its respective schema */
 exports.validateMessage = KoaValidatorFactory(messageSchema, "message");
+exports.validateMessageUpdate = KoaValidatorFactory(messageUpdateSchema, "messageUpdate");
 
 /** Validates property data against its respective schema */
 exports.validateProperty = KoaValidatorFactory(propertiesSchema, "property");
+exports.validatePropertyUpdate = KoaValidatorFactory(propertiesUpdateSchema, "propertyUpdate");
