@@ -7,7 +7,10 @@ const PropertiesCategories = require("../models/propertiesCategoriesModel");
 const PropertiesFeatures = require("../models/propertiesFeaturesModel");
 const Messages = require("../models/messagesModel");
 
-const { validateProperty, validatePropertyUpdate } = require("../controllers/validationController");
+const {
+  validateProperty,
+  validatePropertyUpdate,
+} = require("../controllers/validationController");
 const authenticate = require("../controllers/authenticationController");
 const permissions = require("../permissions/propertiesPermissions");
 
@@ -138,7 +141,13 @@ async function deleteProperty(ctx, next) {
 router.get("/", getAll);
 router.get("/:id", getById);
 router.del("/:id", authenticate, deleteProperty);
-router.put("/:id", bodyParser(), validatePropertyUpdate, authenticate, updateProperty);
+router.put(
+  "/:id",
+  bodyParser(),
+  validatePropertyUpdate,
+  authenticate,
+  updateProperty
+);
 router.post("/", bodyParser(), validateProperty, authenticate, createProperty);
 router.post("/message", bodyParser(), sendMessage);
 

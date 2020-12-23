@@ -20,7 +20,7 @@ describe("propertiesReadUnitTests", () => {
     await Properties.deleteExistingProperty(property._id);
     await Users.db.connection.close();
     await Properties.db.connection.close();
-});
+  });
 
   test("propertyReadValidTrue", async () => {
     let result;

@@ -20,20 +20,28 @@ describe("agentUpdatePropertyPermissions", () => {
    * to test if the current agent can delete it
    */
 
-  beforeAll(async () => {try{
-    user = await createUser("agent");
-    property = await createProperty(user);
-    updatedProperty = await getValidPropertyObject(user);
+  beforeAll(async () => {
+    try {
+      user = await createUser("agent");
+      property = await createProperty(user);
+      updatedProperty = await getValidPropertyObject(user);
 
-    secondUser = await createUser("agent");
-    secondProperty = await createProperty(secondUser, secondUser);}catch(e){console.log(e)}
+      secondUser = await createUser("agent");
+      secondProperty = await createProperty(secondUser, secondUser);
+    } catch (e) {
+      console.log(e);
+    }
   });
 
-  afterAll(async () => {try{
-    await Users.deleteExistingUser(user._id);
-    await Properties.deleteExistingProperty(property._id);
-    await Users.deleteExistingUser(secondUser._id);
-    await Properties.deleteExistingProperty(secondProperty._id);}catch(e){console.log(e)}
+  afterAll(async () => {
+    try {
+      await Users.deleteExistingUser(user._id);
+      await Properties.deleteExistingProperty(property._id);
+      await Users.deleteExistingUser(secondUser._id);
+      await Properties.deleteExistingProperty(secondProperty._id);
+    } catch (e) {
+      console.log(e);
+    }
   });
 
   test("agentUpdateAnyPropertyFalse", async () => {

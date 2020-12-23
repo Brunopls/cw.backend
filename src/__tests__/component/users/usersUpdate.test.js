@@ -33,7 +33,7 @@ describe("agentUpdatePermissions", () => {
 
     await request(app.callback())
       .put(`/api/users/${user._id}`)
-      .send({fullName:faker.name.findName()})
+      .send({ fullName: faker.name.findName() })
       .set("Authorization", `Bearer ${token}`)
       .then((response) => {
         result = response;
@@ -93,7 +93,7 @@ describe("adminUpdatePermissions", () => {
 
     await request(app.callback())
       .put(`/api/users/${user._id}`)
-      .send({fullName:faker.name.findName()})
+      .send({ fullName: faker.name.findName() })
       .set("Authorization", `Bearer ${token}`)
       .then((response) => {
         result = response;

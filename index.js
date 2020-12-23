@@ -9,12 +9,12 @@ const app = new Koa();
 const hostname = "pyramid-snow-3000.codio-box.uk";
 const options = {
   origin: `https://${hostname}`,
-  allowMethods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS', 'PATCH'],
+  allowMethods: ["GET", "POST", "DELETE", "PUT", "OPTIONS", "PATCH"],
 };
 
 const mongoose = require("mongoose");
 const info = require("./config");
-console.log(`${info.config.DB_HOST}${info.config.DB_DATABASE}`)
+console.log(`${info.config.DB_HOST}${info.config.DB_DATABASE}`);
 
 mongoose.Promise = global.Promise;
 mongoose.connect(
@@ -37,10 +37,10 @@ const propertiesRoutes = require("./src/routes/propertiesRoutes");
 const messagesRoutes = require("./src/routes/messagesRoutes");
 
 app.use(cors(options));
-app.use(userRoutes.routes()); 
+app.use(userRoutes.routes());
 app.use(propertiesRoutes.routes());
 app.use(messagesRoutes.routes());
-app.listen(info.config.port, () =>
-  {console.log(`Listening on port ${info.config.port}.`)
-  console.log(`CORS Origin: ${options.origin}`)}
-);
+app.listen(info.config.port, () => {
+  console.log(`Listening on port ${info.config.port}.`);
+  console.log(`CORS Origin: ${options.origin}`);
+});

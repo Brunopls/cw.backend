@@ -3,7 +3,11 @@ const Router = require("koa-router");
 const bodyParser = require("koa-bodyparser");
 const Users = require("../models/usersModel");
 const Roles = require("../models/rolesModel");
-const { validateUser, validateUserUpdate } = require("../controllers/validationController");
+const SignUpCodes = require("../models/signUpCodesModel");
+const {
+  validateUser,
+  validateUserUpdate,
+} = require("../controllers/validationController");
 const authenticate = require("../controllers/authenticationController");
 const { generateJWT } = require("../helpers/authenticationHelper");
 const permissions = require("../permissions/userPermissions");
@@ -14,13 +18,17 @@ const router = Router({ prefix });
 async function createUser(ctx) {
   const { body } = ctx.request;
   body.passwordSalt = 10;
-  let result = await Users.addNewUser(body);
-  if (result) {
-    result = result.toJSON();
-    result.token = generateJWT(result);
-    ctx.status = 201;
-    // Need to update this since token is passed in result now
-    ctx.body = { user: result, token: generateJWT(result) };
+  const signUpCodeIsValid = await SignUpCodes.existsAndIsValid(body.signUpCode);
+  if (signUpCodeIsValid) {
+    let result = await Users.addNewUser(body);
+    if (result) {
+      result = result.toJSON();
+      result.token = generateJWT(result);
+      ctx.status = 201;
+      ctx.body = { user: result, token: generateJWT(result) };
+    }
+  } else {
+    ctx.status = 400;
   }
 }
 

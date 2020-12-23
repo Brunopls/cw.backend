@@ -22,11 +22,7 @@
           "minLength": 6
         }
       },
-      "required": [
-        "email",
-        "password",
-        "fullName"
-      ]
+      "required": ["email", "password", "fullName"]
     },
     "userList": {
       "$id": "#userList",

@@ -130,7 +130,12 @@ MessagesSchema.statics = {
   async updateExistingMessage(id, body) {
     const error = new APIError("Error updating record.");
     if (!mongoose.Types.ObjectId.isValid(id)) return error;
-    if(body === undefined || body.text === undefined || body.inquirerEmail === undefined) return error;
+    if (
+      body === undefined ||
+      body.text === undefined ||
+      body.inquirerEmail === undefined
+    )
+      return error;
     try {
       return await this.findByIdAndUpdate(id, body);
     } catch {
