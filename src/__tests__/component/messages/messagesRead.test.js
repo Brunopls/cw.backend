@@ -57,52 +57,60 @@ describe("agentReadPermissions", () => {
   let user;
   let message;
 
-  beforeAll(async () => {try{
-    user = await createUser("agent");
-    message = await createMessage(user, user);}catch(e){
-      console.log(e)
+  beforeAll(async () => {
+    try {
+      user = await createUser("agent");
+      message = await createMessage(user, user);
+    } catch (e) {
+      console.log(e);
     }
   });
 
-  afterAll(async () => {try{
-    await Users.deleteExistingUser(user._id);
-    await Messages.deleteExistingMessage(message.newMessage._id);}catch(e){console.log(e)}
+  afterAll(async () => {
+    try {
+      await Users.deleteExistingUser(user._id);
+      await Messages.deleteExistingMessage(message.newMessage._id);
+    } catch (e) {
+      console.log(e);
+    }
   });
 
   test("agentReadOwnTrue", async () => {
-    try{
-    let result;
+    try {
+      let result;
 
-    await request(app.callback())
-      .get(`/api/messages/${message.newMessage._id}`)
-      .set("Authorization", `Bearer ${user.token}`)
-      .then((response) => {
-        result = response;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      await request(app.callback())
+        .get(`/api/messages/${message.newMessage._id}`)
+        .set("Authorization", `Bearer ${user.token}`)
+        .then((response) => {
+          result = response;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-    expect(result.statusCode).toEqual(200);} catch(e) {
+      expect(result.statusCode).toEqual(200);
+    } catch (e) {
       fail(e);
     }
   });
 
   test("agentReadAllFalse", async () => {
-    try{
-    let result;
+    try {
+      let result;
 
-    await request(app.callback())
-      .get(`/api/messages/`)
-      .set("Authorization", `Bearer ${user.token}`)
-      .then((response) => {
-        result = response;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      await request(app.callback())
+        .get(`/api/messages/`)
+        .set("Authorization", `Bearer ${user.token}`)
+        .then((response) => {
+          result = response;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-    expect(result.statusCode).toEqual(403);} catch(e){
+      expect(result.statusCode).toEqual(403);
+    } catch (e) {
       fail(e);
     }
   });
@@ -111,50 +119,58 @@ describe("agentReadPermissions", () => {
 describe("generalPublicReadPermissions", () => {
   let message;
 
-  beforeAll(async () => {try{
-    user = await createUser("agent");
-    message = await createMessage(user, user);}catch(e){
-      console.log(e)
+  beforeAll(async () => {
+    try {
+      user = await createUser("agent");
+      message = await createMessage(user, user);
+    } catch (e) {
+      console.log(e);
     }
   });
 
-  afterAll(async () => {try{
-    await Users.deleteExistingUser(user._id);
-    await Messages.deleteExistingMessage(message.newMessage._id);}catch(e){
-      console.log(e)
+  afterAll(async () => {
+    try {
+      await Users.deleteExistingUser(user._id);
+      await Messages.deleteExistingMessage(message.newMessage._id);
+    } catch (e) {
+      console.log(e);
     }
   });
 
-  test("generalPublicReadAllFalse", async () => {try{
-    let result;
+  test("generalPublicReadAllFalse", async () => {
+    try {
+      let result;
 
-    await request(app.callback())
-      .get("/api/messages/")
-      .then((response) => {
-        result = response;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      await request(app.callback())
+        .get("/api/messages/")
+        .then((response) => {
+          result = response;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-    expect(result.statusCode).toEqual(401);}catch(e){
+      expect(result.statusCode).toEqual(401);
+    } catch (e) {
       fail(e);
     }
   });
 
-  test("generalPublicReadOneFalse", async () => {try{
-    let result;
+  test("generalPublicReadOneFalse", async () => {
+    try {
+      let result;
 
-    await request(app.callback())
-      .get(`/api/messages/${message.newMessage._id}`)
-      .then((response) => {
-        result = response;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      await request(app.callback())
+        .get(`/api/messages/${message.newMessage._id}`)
+        .then((response) => {
+          result = response;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-    expect(result.statusCode).toEqual(401);}catch(e){
+      expect(result.statusCode).toEqual(401);
+    } catch (e) {
       fail(e);
     }
   });

@@ -17,19 +17,19 @@
         },
         "underOffer": {
           "description": "Whether a property is under offer",
-          "type" : "boolean"
+          "type": "boolean"
         },
         "visible": {
           "description": "Whether a property is visible",
-          "type" : "boolean"
+          "type": "boolean"
         },
         "highPriority": {
           "description": "Whether a property takes precedence over others in list ordering",
-          "type" : "boolean"
+          "type": "boolean"
         },
         "askingPrice": {
           "description": "Property's asking price",
-          "type" : "integer"
+          "type": "integer"
         },
         "location": {
           "description": "Property Location",
@@ -37,11 +37,11 @@
         },
         "user": {
           "description": "Property Advertiser ID",
-          "type" : "string"
+          "type": "string"
         },
         "propertyFeatures": {
           "description": "Property Features IDs",
-          "type" : "array"
+          "type": "array"
         },
         "propertyCategory": {
           "description": "Property Category ID",
@@ -49,7 +49,13 @@
         }
       },
 
-      "required": ["title", "description", "location", "propertyCategory", "user"]
+      "required": [
+        "title",
+        "description",
+        "location",
+        "propertyCategory",
+        "user"
+      ]
     },
 
     "propertyList": {
@@ -78,15 +84,15 @@
         },
         "underOffer": {
           "description": "Whether a property is under offer",
-          "type" : "boolean"
+          "type": "boolean"
         },
         "highPriority": {
           "description": "Whether a property takes precedence over others in list ordering",
-          "type" : "boolean"
+          "type": "boolean"
         },
         "askingPrice": {
           "description": "Property's asking price",
-          "type" : "integer"
+          "type": "integer"
         },
         "location": {
           "description": "Property Location",
@@ -94,11 +100,11 @@
         },
         "user": {
           "description": "Property Advertiser ID",
-          "type" : "string"
+          "type": "string"
         },
         "propertyFeatures": {
           "description": "Property Features IDs",
-          "type" : "array"
+          "type": "array"
         },
         "propertyCategory": {
           "description": "Property Category ID",
@@ -113,37 +119,45 @@
       "description": "Data fields which can be updated",
       "type": "object",
       "properties": {
-      "title": {
-        "description": "Property Title",
-        "type": "string"
+        "title": {
+          "description": "Property Title",
+          "type": "string"
+        },
+        "description": {
+          "description": "Property Description",
+          "type": "string"
+        },
+        "underOffer": {
+          "description": "Whether a property is under offer",
+          "type": "boolean"
+        },
+        "highPriority": {
+          "description": "Whether a property takes precedence over others in list ordering",
+          "type": "boolean"
+        },
+        "askingPrice": {
+          "description": "Property's asking price",
+          "type": "integer"
+        },
+        "location": {
+          "description": "Property Location",
+          "type": "string"
+        },
+        "propertyFeatures": {
+          "description": "Property Features IDs"
+        },
+        "propertyCategory": {
+          "description": "Property Category ID"
+        }
       },
-      "description": {
-        "description": "Property Description",
-        "type": "string"
-      },
-      "underOffer": {
-        "description": "Whether a property is under offer",
-        "type" : "boolean"
-      },
-      "highPriority": {
-        "description": "Whether a property takes precedence over others in list ordering",
-        "type" : "boolean"
-      },
-      "askingPrice": {
-        "description": "Property's asking price",
-        "type" : "integer"
-      },
-      "location": {
-        "description": "Property Location",
-        "type": "string"
-      },
-      "propertyFeatures": {
-        "description": "Property Features IDs"
-      },
-      "propertyCategory": {
-        "description": "Property Category ID"
-      }
-      }, "required": ["title","description","askingPrice","location", "propertyFeatures", "propertyCategory"]
+      "required": [
+        "title",
+        "description",
+        "askingPrice",
+        "location",
+        "propertyFeatures",
+        "propertyCategory"
+      ]
     },
     "propertyUpdated": {
       "$id": "#propertyUpdated",
@@ -182,7 +196,5 @@
         }
       }
     }
-
-    
   }
 }

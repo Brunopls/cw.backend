@@ -9,26 +9,26 @@ const {
 const APIError = require("../../../../helpers/apiErrorHandling");
 
 describe("propertyUpdateUnitTests", () => {
-    let user;
-    let existingProperty;
-    let validPropertyObject;
-    let invalidPropertyObject;
-  
-    beforeAll(async () => {
-        user = await createUser("agent");
-        existingProperty = await createProperty(user, user);
-        validPropertyObject = await getValidPropertyObject(user, user);
-        invalidPropertyObject = await getInvalidPropertyObject();
-    });
-  
-    afterAll(async () => {
-      await Users.deleteExistingUser(user._id);
-      await Properties.deleteExistingProperty(existingProperty._id);
-      await Users.db.connection.close();
-      await Properties.db.connection.close();
-    });
+  let user;
+  let existingProperty;
+  let validPropertyObject;
+  let invalidPropertyObject;
 
-    test("propertyUpdateValidPropertyObjectTrue", async () => {
+  beforeAll(async () => {
+    user = await createUser("agent");
+    existingProperty = await createProperty(user, user);
+    validPropertyObject = await getValidPropertyObject(user, user);
+    invalidPropertyObject = await getInvalidPropertyObject();
+  });
+
+  afterAll(async () => {
+    await Users.deleteExistingUser(user._id);
+    await Properties.deleteExistingProperty(existingProperty._id);
+    await Users.db.connection.close();
+    await Properties.db.connection.close();
+  });
+
+  test("propertyUpdateValidPropertyObjectTrue", async () => {
     let result;
 
     result = await Properties.updateExistingProperty(
@@ -46,7 +46,7 @@ describe("propertyUpdateUnitTests", () => {
       existingProperty._id,
       invalidPropertyObject
     );
-    
+
     expect(result instanceof APIError).toEqual(true);
   });
-})
+});

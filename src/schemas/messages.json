@@ -28,15 +28,10 @@
         },
         "archived": {
           "description": "Message archival",
-          "type":"boolean"
+          "type": "boolean"
         }
       },
-      "required": [
-        "text",
-        "inquirerEmail",
-        "user",
-        "property"
-      ]
+      "required": ["text", "inquirerEmail", "user", "property"]
     },
     "messageList": {
       "$id": "#messageList",
@@ -98,7 +93,7 @@
       "properties": {
         "archived": {
           "description": "Message archival",
-          "type":"boolean"
+          "type": "boolean"
         }
       },
       "additionalProperties": false

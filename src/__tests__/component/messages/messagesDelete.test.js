@@ -15,57 +15,63 @@ describe("agentDeletePermissions", () => {
   let secondUser;
   let secondMessage;
 
-  beforeAll(async () => {try{
-    user = await createUser("agent");
-    message = await createMessage(user, user);
-    secondUser = await createUser("agent");
-    secondMessage = await createMessage(secondUser, secondUser);} catch(e) {
-      console.log(e)
+  beforeAll(async () => {
+    try {
+      user = await createUser("agent");
+      message = await createMessage(user, user);
+      secondUser = await createUser("agent");
+      secondMessage = await createMessage(secondUser, secondUser);
+    } catch (e) {
+      console.log(e);
     }
   });
 
   afterAll(async () => {
-    try{
-    await Users.deleteExistingUser(user._id);
-    await Messages.deleteExistingMessage(message.newMessage._id);
-    await Users.deleteExistingUser(secondUser._id);
-    await Messages.deleteExistingMessage(secondMessage.newMessage._id);}catch(e){
-      console.log(e)
+    try {
+      await Users.deleteExistingUser(user._id);
+      await Messages.deleteExistingMessage(message.newMessage._id);
+      await Users.deleteExistingUser(secondUser._id);
+      await Messages.deleteExistingMessage(secondMessage.newMessage._id);
+    } catch (e) {
+      console.log(e);
     }
   });
 
   test("agentDeleteOwnTrue", async () => {
-    try{let result;
-    await request(app.callback())
-      .delete(`/api/messages/${message.newMessage._id}`)
-      .set("Authorization", `Bearer ${user.token}`)
-      .then((response) => {
-        result = response;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      let result;
+      await request(app.callback())
+        .delete(`/api/messages/${message.newMessage._id}`)
+        .set("Authorization", `Bearer ${user.token}`)
+        .then((response) => {
+          result = response;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-    expect(result.statusCode).toEqual(204);}catch(e){
+      expect(result.statusCode).toEqual(204);
+    } catch (e) {
       fail(e);
     }
   });
 
   test("agentDeleteOtherFalse", async () => {
-    try{
-    let result;
+    try {
+      let result;
 
-    await request(app.callback())
-      .delete(`/api/messages/${secondMessage.newMessage._id}`)
-      .set("Authorization", `Bearer ${user.token}`)
-      .then((response) => {
-        result = response;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      await request(app.callback())
+        .delete(`/api/messages/${secondMessage.newMessage._id}`)
+        .set("Authorization", `Bearer ${user.token}`)
+        .then((response) => {
+          result = response;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-    expect(result.statusCode).toEqual(403);} catch(e) {
+      expect(result.statusCode).toEqual(403);
+    } catch (e) {
       fail(e);
     }
   });

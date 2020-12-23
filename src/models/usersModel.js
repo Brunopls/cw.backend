@@ -107,7 +107,7 @@ UsersSchema.statics = {
    */
   async getByEmail(email) {
     const error = new APIError("Error retrieving record.");
-    if(email === undefined) return error;
+    if (email === undefined) return error;
     try {
       return this.findOne({ email })
         .exec()
@@ -128,15 +128,15 @@ UsersSchema.statics = {
    */
   async addNewUser(body) {
     const error = new APIError("Error adding record.");
-    if(body === undefined || body.email === undefined) return error;
-    try{
-    const newUser = new this({
-      ...body,
-      passwordSalt: 10,
-      password: bcrypt.hashSync(body.password, body.passwordSalt),
-    });
-    return newUser.save();
-  } catch {
+    if (body === undefined || body.email === undefined) return error;
+    try {
+      const newUser = new this({
+        ...body,
+        passwordSalt: 10,
+        password: bcrypt.hashSync(body.password, body.passwordSalt),
+      });
+      return newUser.save();
+    } catch {
       return error;
     }
   },
@@ -150,7 +150,8 @@ UsersSchema.statics = {
    */
   async updateExistingUser(id, body) {
     const error = new APIError("Error updating record.");
-    if(id === undefined || body === undefined || body.email === undefined) return error;
+    if (id === undefined || body === undefined || body.email === undefined)
+      return error;
     try {
       return this.findByIdAndUpdate(id, body, { runValidators: true });
     } catch {

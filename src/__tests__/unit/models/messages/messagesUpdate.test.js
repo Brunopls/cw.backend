@@ -9,26 +9,26 @@ const {
 const APIError = require("../../../../helpers/apiErrorHandling");
 
 describe("messageUpdateUnitTests", () => {
-    let user;
-    let existingMessage;
-    let validMessageObject;
-    let invalidMessageObject;
-  
-    beforeAll(async () => {
-        user = await createUser("agent");
-        existingMessage = await createMessage(user, user);
-        validMessageObject = await getValidMessageObject(user, user);
-        invalidMessageObject = await getInvalidMessageObject();
-    });
-  
-    afterAll(async () => {
-      await Users.deleteExistingUser(user._id);
-      await Messages.deleteExistingMessage(existingMessage.newMessage._id);
-      await Users.db.connection.close();
-      await Messages.db.connection.close();
-    });
+  let user;
+  let existingMessage;
+  let validMessageObject;
+  let invalidMessageObject;
 
-    test("messageUpdateValidMessageObjectTrue", async () => {
+  beforeAll(async () => {
+    user = await createUser("agent");
+    existingMessage = await createMessage(user, user);
+    validMessageObject = await getValidMessageObject(user, user);
+    invalidMessageObject = await getInvalidMessageObject();
+  });
+
+  afterAll(async () => {
+    await Users.deleteExistingUser(user._id);
+    await Messages.deleteExistingMessage(existingMessage.newMessage._id);
+    await Users.db.connection.close();
+    await Messages.db.connection.close();
+  });
+
+  test("messageUpdateValidMessageObjectTrue", async () => {
     let result;
 
     result = await Messages.updateExistingMessage(
@@ -46,7 +46,7 @@ describe("messageUpdateUnitTests", () => {
       existingMessage.newMessage._id,
       invalidMessageObject
     );
-    
+
     expect(result instanceof APIError).toEqual(true);
   });
-})
+});

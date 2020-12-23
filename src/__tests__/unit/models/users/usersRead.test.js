@@ -1,7 +1,5 @@
 const Users = require("../../../../models/usersModel");
-const {
-  createUser,
-} = require("../../../../helpers/integrationTestsHelper");
+const { createUser } = require("../../../../helpers/integrationTestsHelper");
 const APIError = require("../../../../helpers/apiErrorHandling");
 
 describe("usersReadUnitTests", () => {

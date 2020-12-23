@@ -16,7 +16,6 @@ describe("agentCreatePropertyPermissions", () => {
     user = await createUser("agent");
     propertyToBeCreated = await getValidPropertyObject(user);
     propertyToBeCreated = JSON.stringify(propertyToBeCreated);
-    
   });
 
   afterAll(async () => {
@@ -26,7 +25,7 @@ describe("agentCreatePropertyPermissions", () => {
 
   test("agentCreateOwnPropertyTrue", async () => {
     let result;
-    console.dir(propertyToBeCreated)
+    console.dir(propertyToBeCreated);
 
     await request(app.callback())
       .post(`/api/properties/`)

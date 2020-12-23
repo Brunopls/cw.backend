@@ -92,13 +92,12 @@ const getValidMessageObject = async (user, property) => {
 const getValidPropertyFeatureObject = async () => {
   const object = await validPropertyFeatureObject();
   return object;
-}
+};
 
 const getValidPropertyCategoryObject = async () => {
   const object = await validPropertyCategoryObject();
   return object;
-}
-
+};
 
 const getInvalidMessageObject = async () => {
   const object = await invalidMessageObject();
@@ -122,23 +121,23 @@ const getInvalidUserObject = async () => {
 
 const createUser = async (role) => {
   try {
-  const userToCreate = await getValidUserObject(role);
-  const user = await Users.addNewUser(userToCreate);
+    const userToCreate = await getValidUserObject(role);
+    const user = await Users.addNewUser(userToCreate);
 
-  await request(app.callback())
-    .post("/api/users/login")
-    .auth(user.email, userToCreate.password)
-    .then((res) => {
-      user.token = res.body.token;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    await request(app.callback())
+      .post("/api/users/login")
+      .auth(user.email, userToCreate.password)
+      .then((res) => {
+        user.token = res.body.token;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
-  return user;
+    return user;
   } catch (err) {
     console.log(err);
-    return {}
+    return {};
   }
 };
 
@@ -156,13 +155,17 @@ const createProperty = async (user) => {
 
 const createPropertyFeature = async (user) => {
   const propertyFeatureToCreate = await getValidPropertyFeatureObject();
-  const propertyFeature = await PropertiesFeatures.addNewPropertyFeature(propertyFeatureToCreate);
+  const propertyFeature = await PropertiesFeatures.addNewPropertyFeature(
+    propertyFeatureToCreate
+  );
   return propertyFeature;
 };
 
 const createPropertyCategory = async (user) => {
   const propertyCategoryToCreate = await getValidPropertyCategoryObject();
-  const propertyFeature = await PropertiesCategories.addNewPropertyCategories(propertyCategoryToCreate);
+  const propertyFeature = await PropertiesCategories.addNewPropertyCategories(
+    propertyCategoryToCreate
+  );
   return propertyFeature;
 };
 
@@ -176,5 +179,5 @@ module.exports = {
   createMessage,
   createProperty,
   getInvalidMessageObject,
-  getInvalidPropertyObject
+  getInvalidPropertyObject,
 };

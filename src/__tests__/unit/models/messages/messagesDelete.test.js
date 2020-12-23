@@ -7,33 +7,35 @@ const {
 const APIError = require("../../../../helpers/apiErrorHandling");
 
 describe("messageDeleteUnitTests", () => {
-    let user;
-    let messageToDelete;
-  
-    beforeAll(async () => {
-      user = await createUser("agent");
-      messageToDelete = await createMessage(user, user);
-    });
-  
-    afterAll(async () => {
-      await Users.deleteExistingUser(user._id);
-      await Users.db.connection.close();
-      await Messages.db.connection.close();
-    });
+  let user;
+  let messageToDelete;
 
-    test("messageDeleteValidTrue", async () => {
-        let result;
-    
-        result = await Messages.deleteExistingMessage(messageToDelete.newMessage._id);
-    
-        expect(result instanceof APIError).toEqual(false);
-      });
-    
-      test("messageDeleteInvalidFalse", async () => {
-        let result;
-    
-        result = await Messages.deleteExistingMessage("user._id");
-    
-        expect(result instanceof APIError).toEqual(true);
-      });
-})
+  beforeAll(async () => {
+    user = await createUser("agent");
+    messageToDelete = await createMessage(user, user);
+  });
+
+  afterAll(async () => {
+    await Users.deleteExistingUser(user._id);
+    await Users.db.connection.close();
+    await Messages.db.connection.close();
+  });
+
+  test("messageDeleteValidTrue", async () => {
+    let result;
+
+    result = await Messages.deleteExistingMessage(
+      messageToDelete.newMessage._id
+    );
+
+    expect(result instanceof APIError).toEqual(false);
+  });
+
+  test("messageDeleteInvalidFalse", async () => {
+    let result;
+
+    result = await Messages.deleteExistingMessage("user._id");
+
+    expect(result instanceof APIError).toEqual(true);
+  });
+});

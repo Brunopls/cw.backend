@@ -46,7 +46,7 @@ describe("agentUpdatePermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(204);
+    expect(result.statusCode).toEqual(204);
   });
 
   test("agentUpdateOtherFalse", async () => {
@@ -63,6 +63,6 @@ describe("agentUpdatePermissions", () => {
         console.log(err);
       });
 
-      expect(result.statusCode).toEqual(403);
+    expect(result.statusCode).toEqual(403);
   });
 });

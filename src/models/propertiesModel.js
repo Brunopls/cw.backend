@@ -110,7 +110,7 @@ PropertiesSchema.statics = {
    */
   async addNewProperty(body) {
     const error = new APIError("Error creating property.");
-    if(body === undefined || body.title === undefined) return error;
+    if (body === undefined || body.title === undefined) return error;
     try {
       const newProperty = new this({ ...body });
       return await newProperty.save();
@@ -129,7 +129,13 @@ PropertiesSchema.statics = {
   async updateExistingProperty(id, body) {
     const error = new APIError("Error updating record.");
     if (!mongoose.Types.ObjectId.isValid(id)) return error;
-    if(body === undefined || body.title === undefined || body.description === undefined || body.location === undefined) return error;
+    if (
+      body === undefined ||
+      body.title === undefined ||
+      body.description === undefined ||
+      body.location === undefined
+    )
+      return error;
     try {
       return this.findByIdAndUpdate(id, body, { runValidators: true });
     } catch {
