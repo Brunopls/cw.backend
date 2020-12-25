@@ -30,19 +30,19 @@ async function getAll(ctx) {
   page = page < 1 ? 1 : page;
 
   const result = await Properties.getAll(limit, page);
+  const resultCount = await Properties.getCount();
   const resultFeatures = await PropertiesFeatures.getAll();
   const resultCategories = await PropertiesCategories.getAll();
 
   if (result) {
     ctx.status = 200;
-    ctx.body = { result, resultFeatures, resultCategories };
+    ctx.body = { result, resultCount, resultFeatures, resultCategories };
   }
 }
 
 async function getById(ctx) {
   const { id } = ctx.params;
   const result = await Properties.getByID(id);
-
   if (result) {
     ctx.status = 200;
     ctx.body = result;

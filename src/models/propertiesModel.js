@@ -69,6 +69,7 @@ PropertiesSchema.statics = {
    */
   async getByID(id) {
     const error = new APIError("Error retrieving record.");
+    console.log(id)
     if (!mongoose.Types.ObjectId.isValid(id)) return error;
     try {
       return this.findById(id)
@@ -80,7 +81,20 @@ PropertiesSchema.statics = {
       return error;
     }
   },
-
+/**
+   * Get number of properties
+   * @memberof Properties
+   * @async
+   * @returns {Integer} number of properties
+   */
+  async getCount() {
+    try {
+      return this.countDocuments({})
+        .exec()
+    } catch (err) {
+      return error;
+    }
+  },
   /**
    * Get all properties
    * @memberof Properties
