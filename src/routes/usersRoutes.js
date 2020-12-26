@@ -140,7 +140,7 @@ async function login(ctx) {
   const links = {
     self: `${ctx.protocol}://${ctx.host}${prefix}/${ctx.state.user.id}`,
   };
-  ctx.body = { token: generateJWT(ctx.state.user), links };
+  ctx.body = { id: ctx.state.user._id, token: generateJWT(ctx.state.user), links };
 }
 
 router.post("/login", authenticate, login);

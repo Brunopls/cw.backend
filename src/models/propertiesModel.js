@@ -57,6 +57,12 @@ const PropertiesSchema = new Schema({
       ref: "PropertiesFeatures",
     },
   ],
+  dateCreated: {
+    type: Date,
+  },
+  dateUpdated: {
+    type: Date,
+  }
 });
 
 PropertiesSchema.statics = {
@@ -69,10 +75,12 @@ PropertiesSchema.statics = {
    */
   async getByID(id) {
     const error = new APIError("Error retrieving record.");
-    console.log(id)
     if (!mongoose.Types.ObjectId.isValid(id)) return error;
     try {
       return this.findById(id)
+        .populate('propertyCategory')
+        .populate('propertyFeatures')
+        .populate('user')
         .exec()
         .then((property) => {
           return property;
@@ -87,9 +95,24 @@ PropertiesSchema.statics = {
    * @async
    * @returns {Integer} number of properties
    */
-  async getCount() {
+  async getCount(categories = null, features = null, query = null) {
+    const error = new APIError("Error retrieving all records.");
+    let options = {};
+    
+    if(query){
+      options["title"] = { $regex: '.*' + query + '.*' }
+    }
+    
+    if(categories){
+      options["propertyCategory"] = { $in: categories }
+    }
+    
+    if(features){
+      options["propertyFeatures"] = { $in: features }
+    }
+    
     try {
-      return this.countDocuments({})
+      return this.countDocuments(options)
         .exec()
     } catch (err) {
       return error;
@@ -101,12 +124,30 @@ PropertiesSchema.statics = {
    * @async
    * @returns {Promise<Property[]>} Array of Property objects
    */
-  async getAll(limit = 5, page = 1) {
+  async getAll(limit = 5, page = 1, categories = null, features = null, query = null) {
     const error = new APIError("Error retrieving all records.");
+    let options = {};
+    
+    if(query){
+      options["title"] = { $regex: '.*' + query + '.*' }
+    }
+    
+    if(categories){
+      options["propertyCategory"] = { $in: categories }
+    }
+    
+    if(features){
+      options["propertyFeatures"] = { $in: features }
+    }
+
     try {
-      return this.find({})
+      return this.find(options)
         .limit(limit * 1)
         .skip((page - 1) * limit)
+        .sort({dateUpdated: -1})
+        .populate('propertyCategory')
+        .populate('propertyFeatures')
+        .populate('user')
         .exec()
         .then((properties) => {
           return properties;
