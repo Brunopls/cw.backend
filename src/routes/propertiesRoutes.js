@@ -18,19 +18,33 @@ const prefix = "/api/properties";
 const router = Router({ prefix });
 
 async function getAll(ctx) {
-  let { limit = 10, page = 1 } = ctx.request.query;
+  let { limit = 10, page = 1, query = null, features = null, categories = null, user = null, onlyVisible = true } = ctx.request.query;
 
-  // ensure params are integers
   limit = parseInt(limit);
   page = parseInt(page);
 
-  // validate pagination values to ensure they are sensible
   limit = limit > 100 ? 100 : limit;
   limit = limit < 1 ? 10 : limit;
   page = page < 1 ? 1 : page;
 
-  const result = await Properties.getAll(limit, page);
-  const resultCount = await Properties.getCount();
+  if(features != ''){
+    if(features.includes(','))
+      features=features.split(',')
+    else
+      features=[features]
+  }
+
+  if(categories != ''){
+    if(categories.includes(','))
+    categories=categories.split(',')
+    else
+    categories=[categories]
+  }
+  
+  onlyVisible = ( onlyVisible === true );
+
+  const resultCount = await Properties.getCount(categories, features, query, user, onlyVisible);
+  const result = await Properties.getAll(limit, page, categories, features, query, user, onlyVisible);
   const resultFeatures = await PropertiesFeatures.getAll();
   const resultCategories = await PropertiesCategories.getAll();
 
@@ -43,6 +57,22 @@ async function getAll(ctx) {
 async function getById(ctx) {
   const { id } = ctx.params;
   const result = await Properties.getByID(id);
+  if (result) {
+    ctx.status = 200;
+    ctx.body = result;
+  }
+}
+
+async function getFeatures(ctx) {
+  const result = await PropertiesFeatures.getAll();
+  if (result) {
+    ctx.status = 200;
+    ctx.body = result;
+  }
+}
+
+async function getCategories(ctx) {
+  const result = await PropertiesCategories.getAll();
   if (result) {
     ctx.status = 200;
     ctx.body = result;
@@ -139,7 +169,9 @@ async function deleteProperty(ctx, next) {
 }
 
 router.get("/", getAll);
-router.get("/:id", getById);
+router.get("/get/:id", getById);
+router.get("/features/", getFeatures);
+router.get("/categories/", getCategories);
 router.del("/:id", authenticate, deleteProperty);
 router.put(
   "/:id",
