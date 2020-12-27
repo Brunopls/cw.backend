@@ -95,14 +95,17 @@ PropertiesSchema.statics = {
    * @async
    * @returns {Integer} number of properties
    */
-  async getCount(categories = null, features = null, query = null) {
+  async getCount(categories = null, features = null, query = null, user = null) {
     const error = new APIError("Error retrieving all records.");
     let options = {};
-    
     if(query){
       options["title"] = { $regex: '.*' + query + '.*' }
     }
     
+    if(user){
+      options["user"] = { $in : [user] }
+    }
+
     if(categories){
       options["propertyCategory"] = { $in: categories }
     }
@@ -110,7 +113,7 @@ PropertiesSchema.statics = {
     if(features){
       options["propertyFeatures"] = { $in: features }
     }
-    
+
     try {
       return this.countDocuments(options)
         .exec()
@@ -124,12 +127,16 @@ PropertiesSchema.statics = {
    * @async
    * @returns {Promise<Property[]>} Array of Property objects
    */
-  async getAll(limit = 5, page = 1, categories = null, features = null, query = null) {
+  async getAll(limit = 5, page = 1, categories = null, features = null, query = null, user = null, onlyVisible = true) {
     const error = new APIError("Error retrieving all records.");
     let options = {};
-    
+
     if(query){
       options["title"] = { $regex: '.*' + query + '.*' }
+    }
+
+    if(user){
+      options["user"] = { $in : [user] }
     }
     
     if(categories){
@@ -140,6 +147,9 @@ PropertiesSchema.statics = {
       options["propertyFeatures"] = { $in: features }
     }
 
+    if(onlyVisible){
+      options["visible"] = "true"
+    }
     try {
       return this.find(options)
         .limit(limit * 1)

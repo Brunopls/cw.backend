@@ -18,7 +18,7 @@ const prefix = "/api/properties";
 const router = Router({ prefix });
 
 async function getAll(ctx) {
-  let { limit = 10, page = 1, query = null, features = null, categories = null } = ctx.request.query;
+  let { limit = 10, page = 1, query = null, features = null, categories = null, user = null, onlyVisible = true } = ctx.request.query;
 
   limit = parseInt(limit);
   page = parseInt(page);
@@ -40,9 +40,11 @@ async function getAll(ctx) {
     else
     categories=[categories]
   }
+  
+  onlyVisible = ( onlyVisible === true );
 
-  const result = await Properties.getAll(limit, page, categories, features, query);
-  const resultCount = await Properties.getCount(categories, features, query);
+  const resultCount = await Properties.getCount(categories, features, query, user, onlyVisible);
+  const result = await Properties.getAll(limit, page, categories, features, query, user, onlyVisible);
   const resultFeatures = await PropertiesFeatures.getAll();
   const resultCategories = await PropertiesCategories.getAll();
 
