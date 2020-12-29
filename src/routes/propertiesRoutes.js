@@ -41,7 +41,7 @@ async function getAll(ctx) {
     categories=[categories]
   }
   
-  onlyVisible = ( onlyVisible === true );
+  onlyVisible = ( onlyVisible == "true" );
 
   const resultCount = await Properties.getCount(categories, features, query, user, onlyVisible);
   const result = await Properties.getAll(limit, page, categories, features, query, user, onlyVisible);
