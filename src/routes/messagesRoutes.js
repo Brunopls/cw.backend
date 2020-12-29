@@ -37,21 +37,25 @@ async function getById(ctx, next) {
 }
 
 async function getAll(ctx, next) {
-  const { limit = 10, page = 1 } = ctx.request.query;
+  let { limit = 10, page = 1, showArchived = false } = ctx.request.query;
   const user = ctx.state.user.toJSON();
   const role = await Roles.getByID(user.role);
   user.role = role.title;
 
-  const permission = permissions.readAll(user);
+  const permission = permissions.readOwn(user);
   if (!permission.granted) {
     ctx.status = 403;
     return next();
   }
+  
+  showArchived = ( showArchived == "true" );
 
-  const result = await Messages.getAll(user, limit, page);
+  let result = await Messages.getAll(user, limit, page, showArchived);
+  let resultCount = await Messages.getCount(user, showArchived);
+
   if (result) {
     ctx.status = 200;
-    ctx.body = result;
+    ctx.body = {result,resultCount};
   }
 }
 
@@ -84,6 +88,42 @@ async function updateMessage(ctx, next) {
   const { body } = ctx.request;
 
   const result = await Messages.updateExistingMessage(id, body);
+
+  if (result) {
+    ctx.status = 204;
+    ctx.body = result;
+  }
+}
+
+async function archiveMessage(ctx, next) {
+  const user = ctx.state.user.toJSON();
+  const role = await Roles.getByID(user.role);
+  user.role = role.title;
+  const { id } = ctx.params;
+  let message = await Messages.getByID(id);
+  
+
+  if (!message) {
+    ctx.status = 404;
+    // Redirect to error page
+    return next();
+  }
+
+  let permission;
+  if (String(message.user._id) === String(user._id)) {
+    permission = permissions.updateOwn(user);
+  } else {
+    permission = permissions.updateAll(user);
+  }
+
+  if (!permission.granted) {
+    ctx.status = 403;
+    // Redirect to error page
+    return next();
+  }
+
+  message.archived = true;
+  const result = await Messages.updateExistingMessage(id, message);
 
   if (result) {
     ctx.status = 204;
@@ -129,5 +169,6 @@ router.get("/", authenticate, bodyParser(), getAll);
 router.get("/:id", authenticate, getById);
 router.del("/:id", authenticate, deleteMessage);
 router.put("/:id", bodyParser(), authenticate, updateMessage);
+router.put("/archive/:id", authenticate, archiveMessage);
 
 module.exports = router;

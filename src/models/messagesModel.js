@@ -49,18 +49,50 @@ MessagesSchema.statics = {
    * @async
    * @returns {Promise<Messages[]>} Array of Messages objects
    */
-  async getAll(user, limit = 5, page = 1) {
+  async getAll(user, limit = 5, page = 1, showArchived = false) {
     const error = new APIError("Error retrieving all records.");
     if (!mongoose.Types.ObjectId.isValid(user._id)) return error;
+    let options = {};
+    
+    options["user"] = user._id;
+    
+    if(!showArchived){
+      options["archived"] = "false"
+    }
+
     try {
-      return this.find({ user: user._id })
+      return this.find(options)
         .limit(limit * 1)
         .skip((page - 1) * limit)
+        .sort({dateSent: -1})
+        .populate('property')
         .exec()
         .then((messages) => {
           return messages;
         });
     } catch {
+      return error;
+    }
+  },
+  /**
+   * Get number of messages
+   * @memberof Messages
+   * @async
+   * @returns {Integer} number of messages
+   */
+  async getCount(user, showArchived = false) {
+    const error = new APIError("Error retrieving all records.");
+    let options = {};
+    options["user"] = user._id;
+    
+    if(!showArchived){
+      options["archived"] = "false"
+    }
+
+    try {
+      return this.countDocuments(options)
+        .exec()
+    } catch (err) {
       return error;
     }
   },
