@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const APIError = require("../helpers/apiErrorHandling");
+
 const { Schema } = mongoose;
 
 /**
@@ -97,21 +98,21 @@ PropertiesSchema.statics = {
    */
   async getCount(categories = null, features = null, query = null, user = null) {
     const error = new APIError("Error retrieving all records.");
-    let options = {};
+    const options = {};
     if(query){
-      options["title"] = { $regex: '.*' + query + '.*' }
+      options.title = { $regex: `.*${  query  }.*` }
     }
     
     if(user){
-      options["user"] = { $in : [user] }
+      options.user = { $in : [user] }
     }
 
     if(categories){
-      options["propertyCategory"] = { $in: categories }
+      options.propertyCategory = { $in: categories }
     }
     
     if(features){
-      options["propertyFeatures"] = { $in: features }
+      options.propertyFeatures = { $in: features }
     }
 
     try {
@@ -129,26 +130,26 @@ PropertiesSchema.statics = {
    */
   async getAll(limit = 5, page = 1, categories = null, features = null, query = null, user = null, onlyVisible = true) {
     const error = new APIError("Error retrieving all records.");
-    let options = {};
+    const options = {};
 
     if(query){
-      options["title"] = { $regex: '.*' + query + '.*' }
+      options.title = { $regex: `.*${  query  }.*` }
     }
 
     if(user){
-      options["user"] = { $in : [user] }
+      options.user = { $in : [user] }
     }
     
     if(categories){
-      options["propertyCategory"] = { $in: categories }
+      options.propertyCategory = { $in: categories }
     }
     
     if(features){
-      options["propertyFeatures"] = { $in: features }
+      options.propertyFeatures = { $in: features }
     }
 
     if(onlyVisible){
-      options["visible"] = "true"
+      options.visible = "true"
     }
     try {
       return this.find(options)

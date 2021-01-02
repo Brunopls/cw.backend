@@ -15,6 +15,7 @@ describe("agentCreatePropertyPermissions", () => {
   beforeAll(async () => {
     user = await createUser("agent");
     propertyToBeCreated = await getValidPropertyObject(user);
+    propertyToBeCreated.
     propertyToBeCreated = JSON.stringify(propertyToBeCreated);
   });
 
@@ -25,8 +26,6 @@ describe("agentCreatePropertyPermissions", () => {
 
   test("agentCreateOwnPropertyTrue", async () => {
     let result;
-    console.dir(propertyToBeCreated);
-
     await request(app.callback())
       .post(`/api/properties/`)
       .set("Authorization", `Bearer ${user.token}`)
@@ -38,6 +37,6 @@ describe("agentCreatePropertyPermissions", () => {
         console.log(err);
       });
 
-    expect(result.statusCode).toEqual(201);
+    expect(result.status).toEqual(201);
   });
 });

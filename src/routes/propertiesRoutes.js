@@ -27,14 +27,14 @@ async function getAll(ctx) {
   limit = limit < 1 ? 10 : limit;
   page = page < 1 ? 1 : page;
 
-  if(features != ''){
+  if(features){
     if(features.includes(','))
       features=features.split(',')
     else
       features=[features]
   }
 
-  if(categories != ''){
+  if(categories){
     if(categories.includes(','))
     categories=categories.split(',')
     else

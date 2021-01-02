@@ -13,9 +13,10 @@ const getMockRole = async function (title) {
   return test;
 };
 
-const validUserObject = async (role) => {
+const validUserObject = async (role = "agent") => {
   const mockedRole = await getMockRole(role);
   return {
+    signUpCode: "we_sell_houses_db",
     email: faker.internet.email(),
     password: "passw0rd",
     passwordSalt: 10,
@@ -41,7 +42,7 @@ const validPropertyObject = async (user, category, features) => {
     askingPrice: 100000,
     user: user._id,
     propertyCategory: category._id,
-    propertyFeatures: features._id,
+    propertyFeatures: [features._id],
   };
 };
 

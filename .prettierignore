@@ -2,4 +2,4 @@
 coverage
 
 #Ignore all HTML files in the project
-*.html
+    *.html
