@@ -20,6 +20,8 @@ async function createUser(ctx) {
   body.passwordSalt = 10;
   const signUpCodeIsValid = await SignUpCodes.existsAndIsValid(body.signUpCode);
   if (signUpCodeIsValid) {
+    const agentRole = await Roles.getOneByTitle('agent');
+    body.role = agentRole;
     let result = await Users.addNewUser(body);
     if (result) {
       result = result.toJSON();

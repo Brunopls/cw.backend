@@ -32,7 +32,7 @@ SignUpCodesSchema.statics = {
    */
   async existsAndIsValid(code) {
     const error = new APIError("Error retrieving retrieving record.");
-    return this.findOne({ code: code })
+    return this.findOne({ code })
       .exec()
       .then((record) => {
         return record.valid;

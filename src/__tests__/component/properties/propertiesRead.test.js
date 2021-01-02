@@ -36,19 +36,4 @@ describe("generalPublicReadPermissions", () => {
 
     expect(result.statusCode).toEqual(200);
   });
-
-  test("generalPublicReadOneTrue", async () => {
-    let result;
-
-    await request(app.callback())
-      .get(`/api/properties/${property._id}`)
-      .then((response) => {
-        result = response;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    expect(result.statusCode).toEqual(200);
-  });
 });

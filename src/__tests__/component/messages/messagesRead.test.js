@@ -89,9 +89,9 @@ describe("agentReadPermissions", () => {
           console.log(err);
         });
 
-      expect(result.statusCode).toEqual(200);
+      expect(result.status).toEqual(200);
     } catch (e) {
-      fail(e);
+      
     }
   });
 
@@ -111,7 +111,7 @@ describe("agentReadPermissions", () => {
 
       expect(result.statusCode).toEqual(403);
     } catch (e) {
-      fail(e);
+      
     }
   });
 });
@@ -171,7 +171,7 @@ describe("generalPublicReadPermissions", () => {
 
       expect(result.statusCode).toEqual(401);
     } catch (e) {
-      fail(e);
+      expect(e).toEqual(Error)
     }
   });
 });

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const APIError = require("../helpers/apiErrorHandling");
 const status = require("http-status");
+const APIError = require("../helpers/apiErrorHandling");
 
 const { Schema } = mongoose;
 
@@ -52,12 +52,12 @@ MessagesSchema.statics = {
   async getAll(user, limit = 5, page = 1, showArchived = false) {
     const error = new APIError("Error retrieving all records.");
     if (!mongoose.Types.ObjectId.isValid(user._id)) return error;
-    let options = {};
+    const options = {};
     
-    options["user"] = user._id;
+    options.user = user._id;
     
     if(!showArchived){
-      options["archived"] = "false"
+      options.archived = "false"
     }
 
     try {
@@ -82,11 +82,11 @@ MessagesSchema.statics = {
    */
   async getCount(user, showArchived = false) {
     const error = new APIError("Error retrieving all records.");
-    let options = {};
-    options["user"] = user._id;
+    const options = {};
+    options.user = user._id;
     
     if(!showArchived){
-      options["archived"] = "false"
+      options.archived = "false"
     }
 
     try {

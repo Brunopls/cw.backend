@@ -3,24 +3,21 @@ const faker = require("faker");
 const app = require("../../../../app");
 const Users = require("../../../models/usersModel");
 const Roles = require("../../../models/rolesModel");
-
+const {
+  getValidUserObject,
+} = require("../../../helpers/integrationTestsHelper");
 // Returns a Roles object for the purpose of testing.
+
 async function getMockRole() {
   const test = await Roles.getOneByTitle("agent");
   return test;
 }
 
 const validUserObject = async () => {
-  return {
-    email: faker.internet.email(),
-    password: "passw0rd",
-    passwordSalt: 10,
-    fullName: "Test W. Fail",
-    role: await getMockRole()._id,
-  };
+  return await getValidUserObject();
 };
 
-// Fails validation - password too short
+// Fails validation - password too short & no sign-up code
 const invalidUserObject = async () => {
   return {
     email: faker.internet.email(),
@@ -62,7 +59,7 @@ describe("generalPublicCreate", () => {
 
     await request(app.callback())
       .post("/api/users")
-      .send(newUser)
+      .send(JSON.stringify(newUser))
       .then((response) => {
         newUser = response.body.user;
         result = response;
@@ -71,7 +68,7 @@ describe("generalPublicCreate", () => {
         console.log(err);
       });
 
-    expect(result.statusCode).toEqual(201);
+    expect(result.status).toEqual(201);
   });
 
   test("generalPublicCreateInvalidUserFalse", async () => {
@@ -89,6 +86,6 @@ describe("generalPublicCreate", () => {
         console.log(err);
       });
 
-    expect(result.statusCode).toEqual(400);
+    expect(result.status).toEqual(400);
   });
 });

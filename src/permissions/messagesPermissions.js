@@ -11,7 +11,7 @@ exports.readAll = (requester) => {
   try {
     return ac.can(requester.role).readAny("messages");
   } catch (err) {
-    console.log(err);
+    return false;
   }
 };
 
@@ -19,7 +19,7 @@ exports.readOwn = (requester) => {
   try {
     return ac.can(requester.role).readOwn("messages");
   } catch (err) {
-    console.log(err);
+    return false;
   }
 };
 
@@ -27,7 +27,7 @@ exports.updateAll = (requester) => {
   try {
     return ac.can(requester.role).updateAny("messages");
   } catch (err) {
-    console.log(err);
+    return false;
   }
 };
 
@@ -35,7 +35,7 @@ exports.updateOwn = (requester) => {
   try {
     return ac.can(requester.role).updateOwn("messages");
   } catch (err) {
-    console.log(err);
+    return false;
   }
 };
 
@@ -43,7 +43,7 @@ exports.deleteAny = (requester) => {
   try {
     return ac.can(requester.role).deleteAny("messages");
   } catch (err) {
-    console.log(err);
+    return false;
   }
 };
 
@@ -51,6 +51,6 @@ exports.deleteOwn = (requester) => {
   try {
     return ac.can(requester.role).deleteOwn("messages");
   } catch (err) {
-    console.log(err);
+    return false;
   }
 };

@@ -50,8 +50,8 @@ async function getAll(ctx, next) {
   
   showArchived = ( showArchived == "true" );
 
-  let result = await Messages.getAll(user, limit, page, showArchived);
-  let resultCount = await Messages.getCount(user, showArchived);
+  const result = await Messages.getAll(user, limit, page, showArchived);
+  const resultCount = await Messages.getCount(user, showArchived);
 
   if (result) {
     ctx.status = 200;
@@ -100,7 +100,7 @@ async function archiveMessage(ctx, next) {
   const role = await Roles.getByID(user.role);
   user.role = role.title;
   const { id } = ctx.params;
-  let message = await Messages.getByID(id);
+  const message = await Messages.getByID(id);
   
 
   if (!message) {

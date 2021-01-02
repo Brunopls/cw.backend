@@ -9,8 +9,11 @@
     "ecmaVersion": 12
   },
   "rules": {
-    "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
-    "no-underscore-dangle": "off"
+    "no-unused-vars": [1, { "ignoreRestSiblings": true }],
+    "no-underscore-dangle": "off",
+    "consistent-return": "off",
+    "prefer-const": "off",
+    "eqeqeq": "off"
   },
   "globals": {
     "process": true
